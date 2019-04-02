@@ -1,0 +1,106 @@
+PODS:
+  - Alamofire (4.8.0)
+  - BMPlayer (1.2.0):
+    - BMPlayer/Full (= 1.2.0)
+  - BMPlayer/Core (1.2.0)
+  - BMPlayer/Full (1.2.0):
+    - BMPlayer/Core
+    - NVActivityIndicatorView (~> 4.5.1)
+    - SnapKit (~> 4.2.0)
+  - Charts (3.2.2):
+    - Charts/Core (= 3.2.2)
+  - Charts/Core (3.2.2)
+  - CountryList (1.1)
+  - Fusuma (1.3.1)
+  - Google-Mobile-Ads-SDK (7.40.0)
+  - GravitySliderFlowLayout (1.0)
+  - iOSPhotoEditor (0.6)
+  - IQKeyboardManagerSwift (6.2.0)
+  - Kingfisher (4.10.1)
+  - Koloda (4.6):
+    - pop (~> 1.0)
+  - NVActivityIndicatorView (4.5.1):
+    - NVActivityIndicatorView/Presenter (= 4.5.1)
+  - NVActivityIndicatorView/Presenter (4.5.1)
+  - ObjectMapper (3.4.2)
+  - OTPTextView (0.1.2)
+  - pop (1.0.12)
+  - SnapKit (4.2.0)
+  - Socket.IO-Client-Swift (12.0.0):
+    - StarscreamSocketIO (~> 8.0.7)
+  - StarscreamSocketIO (8.0.7)
+  - SwiftMessages (6.0.2):
+    - SwiftMessages/App (= 6.0.2)
+  - SwiftMessages/App (6.0.2)
+  - SwiftyJSON (4.2.0)
+  - TTRangeSlider (1.0.6)
+
+DEPENDENCIES:
+  - Alamofire
+  - BMPlayer (~> 1.2.0)
+  - Charts
+  - CountryList
+  - Fusuma
+  - Google-Mobile-Ads-SDK
+  - GravitySliderFlowLayout
+  - iOSPhotoEditor
+  - IQKeyboardManagerSwift
+  - Kingfisher
+  - Koloda
+  - ObjectMapper (~> 3.4)
+  - OTPTextView
+  - Socket.IO-Client-Swift (~> 12.0.0)
+  - SwiftMessages
+  - SwiftyJSON
+  - TTRangeSlider
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - BMPlayer
+    - Charts
+    - CountryList
+    - Fusuma
+    - Google-Mobile-Ads-SDK
+    - GravitySliderFlowLayout
+    - iOSPhotoEditor
+    - IQKeyboardManagerSwift
+    - Kingfisher
+    - Koloda
+    - NVActivityIndicatorView
+    - ObjectMapper
+    - OTPTextView
+    - pop
+    - SnapKit
+    - Socket.IO-Client-Swift
+    - StarscreamSocketIO
+    - SwiftMessages
+    - SwiftyJSON
+    - TTRangeSlider
+
+SPEC CHECKSUMS:
+  Alamofire: 3ec537f71edc9804815215393ae2b1a8ea33a844
+  BMPlayer: b952a7d3a82ce8c934403e2070596e244e6c9ddd
+  Charts: f69cf0518b6d1d62608ca504248f1bbe0b6ae77e
+  CountryList: ad58cd670c4ecab6bb014abebc12e63f619174b2
+  Fusuma: 2c39605534fa999d1d54c30a575272b31326f416
+  Google-Mobile-Ads-SDK: 9d1c38a83febea769470aa514a9c7954e2d1483d
+  GravitySliderFlowLayout: bb9ae6a302b85821c9e0271c00533fae8091143b
+  iOSPhotoEditor: d597c2797033bb06e2a705560ae748136c8ac2ea
+  IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
+  Koloda: bcf5acded25fc49020d1447ed8ddd87e14d01e7e
+  NVActivityIndicatorView: ec34a7b88c51fab270004a1a1f32116e711010cd
+  ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
+  OTPTextView: e90f3a8c61a51767bd2cd4430cc8541f23a56e20
+  pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
+  Socket.IO-Client-Swift: 5b0154b42b3892bfb4c44fa138cbeb8afec4f6ef
+  StarscreamSocketIO: 00b54e4208481ca5cef089545353aaf126bae16d
+  SwiftMessages: 8b3cc68dba2f1c91aac1a74c90b10287aac35371
+  SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
+  TTRangeSlider: 78188bea83f6471a06f75adbc88da5e990baeafe
+
+PODFILE CHECKSUM: d0b300638f4f5e4765912d69aab8a3d06e963fdc
+
+COCOAPODS: 1.5.3
