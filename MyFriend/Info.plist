@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>2.0.4</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSApplicationCategoryType</key>
@@ -43,6 +43,8 @@
 	</dict>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>App Needs This permition To enable picking videos with sounds using Camera</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app requires access to write photos to the photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This lets you share photos from your library and save photos to your camera roll</string>
 	<key>UILaunchStoryboardName</key>

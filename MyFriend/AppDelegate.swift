@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let tab = Storyboard.instantiateViewController(withIdentifier: "mainTab")
             window?.rootViewController = tab
         }
-        GADMobileAds.configure(withApplicationID: URLs.YOUR_ADMOB_APP_ID)
+        GADMobileAds.configure(withApplicationID: URLs.YOUR_Real_ADMOB_APP_ID)
         IQKeyboardManager.shared.enable = true
         return true
     }

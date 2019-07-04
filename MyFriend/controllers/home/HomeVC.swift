@@ -193,9 +193,6 @@ class HomeVC: BaseViewController{
         if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
             imagePiker.sourceType = UIImagePickerController.SourceType.camera
             imagePiker.delegate = self
-            imagePiker.allowsEditing = true
-            imagePiker.setEditing(true, animated: true)
-            imagePiker.preferredContentSize = CGSize(width: 100, height: 100)
             imagePiker.cameraFlashMode = .auto
             imagePiker.cameraDevice = .rear
             imagePiker.showsCameraControls = true
@@ -211,7 +208,6 @@ class HomeVC: BaseViewController{
     
     func opengallery() {
         imagePiker = UIImagePickerController()
-        imagePiker.allowsEditing = true
         imagePiker.videoMaximumDuration = 40.0
         imagePiker.sourceType = .photoLibrary
         imagePiker.mediaTypes = ["public.image", "public.movie"]
@@ -907,8 +903,8 @@ extension HomeVC: UIImagePickerControllerDelegate, UINavigationControllerDelegat
             //photoEditor.colors = [.red, .blue, .green]
             
             //Stickers that the user will choose from to add on the image
-            for i in 0...11 {
-                photoEditor.stickers.append(UIImage(named: i.description )!)
+            for i in 0...10 {
+                photoEditor.stickers.append(UIImage(named: i.description)!)
             }
             present(photoEditor, animated: true, completion: nil)
             //  self.picker_image = originalImage

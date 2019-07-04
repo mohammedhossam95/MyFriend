@@ -10,6 +10,7 @@ import Foundation
 struct URLs {
 
     ///server for ad`s
+    //ca-app-pub-1940793456791298~8791159745
     static let YOUR_Real_ADMOB_APP_ID = "ca-app-pub-1940793456791298~8791159745"
     static let YOUR_ADMOB_APP_ID = "ca-app-pub-8501671653071605~9497926137"
     static let bannarId = "ca-app-pub-1940793456791298/2313327401"
@@ -23,8 +24,8 @@ struct URLs {
     ///server for Photo
     static let photoMain = "https://www.myfriend-app.com/"
     
-    ///static let mainSocket = "https://www.myfriend-app.com:4498"
-    static let mainSocket = "https://www.myfriend-app.com:44499"
+    static let mainSocket = "https://www.myfriend-app.com:4498"
+    ///static let mainSocket = "https://www.myfriend-app.com:44499"
     
     ///Login Method -post- pararmeters api_password email or phone password
     static let login = main + "auth/login"

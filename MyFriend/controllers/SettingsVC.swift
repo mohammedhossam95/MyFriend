@@ -32,7 +32,9 @@ class SettingsVC: BaseViewController {
         super.viewDidLoad()
         setupView()
         handleRefresh()
-        
+        let edgeScreen: UIScreenEdgePanGestureRecognizer = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(SettingsVC.PopView(_:)))
+        edgeScreen.edges = .left
+        view.addGestureRecognizer(edgeScreen)
         // Do any additional setup after loading the view.
     }
     
@@ -45,6 +47,12 @@ class SettingsVC: BaseViewController {
                 self.settings = account
                 self.updateUI(settings: account)
             }
+        }
+    }
+    
+    @objc func PopView(_ sender: UIScreenEdgePanGestureRecognizer) {
+        if sender.state == .ended {
+            _ = navigationController?.popViewController(animated: true)
         }
     }
     
@@ -71,7 +79,6 @@ class SettingsVC: BaseViewController {
     
     @IBAction func settingsBackPressed(_ sender: UIButton) {
         _ = navigationController?.popViewController(animated: true)
-        
     }
     @IBAction func logoutPressed(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
