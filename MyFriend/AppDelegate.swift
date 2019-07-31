@@ -26,7 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let tab = Storyboard.instantiateViewController(withIdentifier: "mainTab")
             window?.rootViewController = tab
         }
+        
 //        GADMobileAds.configure(withApplicationID: URLs.YOUR_ADMOB_APP_ID)
+        GADMobileAds.sharedInstance().start(completionHandler: nil)
         IQKeyboardManager.shared.enable = true
         
         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]

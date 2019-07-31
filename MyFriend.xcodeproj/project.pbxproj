@@ -1253,7 +1253,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.myfriend-app.v1.MyFriend.Myfriend-app";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.myfriend-app.v1.MyFriend.MyfriendApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
@@ -1276,7 +1276,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.myfriend-app.v1.MyFriend.Myfriend-app";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.myfriend-app.v1.MyFriend.MyfriendApp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
