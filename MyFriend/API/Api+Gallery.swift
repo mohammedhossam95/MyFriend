@@ -115,6 +115,8 @@ extension ApiCalls{
         }
         
     }
+    //MARK: upload Photo
+    
     class func uploadPhoto(file: UIImage, completion: @escaping (_ error: Error?, _ GPhoto: GPhoto?)->Void)  {
         
         guard let user_token = helper.getApiToken() else {
@@ -149,8 +151,7 @@ extension ApiCalls{
             case .success(request: let upload, streamingFromDisk: _, streamFileURL: _):
                 upload.uploadProgress(closure: { (progress: Progress) in
                     print(progress)
-                })
-                    .responseJSON(completionHandler: { (response: DataResponse<Any>) in
+                }).responseJSON { (response) in
                         switch response.result
                         {
                         case .failure(let error):
@@ -179,7 +180,76 @@ extension ApiCalls{
                                 completion(nil,nil)
                             }
                         }
-                    })
+                    }
+            }
+            
+        }
+        
+    }
+    //MARK: Video
+    class func uploadVideo(file: URL, completion: @escaping (_ error: Error?, _ GPhoto: GPhoto?)->Void)  {
+        
+        guard let user_token = helper.getApiToken() else {
+            return
+        }
+        
+        let url = URLs.uploadPhoto
+        let parameters: [String : Any] =
+            [
+                "user_token":user_token,
+                "api_password":URLs.api_password
+        ]
+        Alamofire.upload(multipartFormData: { form in
+            
+            for (key, value) in parameters {
+                form.append("\(value)".data(using: String.Encoding.utf8)!, withName: key)
+            }
+            do {
+                let data = try Data(contentsOf: file)
+                form.append(data, withName: "file", fileName: "\(Date().timeIntervalSince1970).mov", mimeType: "video/quicktime")
+            } catch  {
+                print("Video Not Allowed")
+            }
+            
+        }, to: url)
+        { (result) in
+            switch result {
+            case .success(request: let upload, _, _):
+                upload.uploadProgress(closure: { (progress: Progress) in
+                    print(progress)
+                })
+                upload.responseJSON { response in
+                    switch response.result
+                    {
+                    case .failure(let error):
+                        completion(error,nil)
+                    case .success(let value):
+                        let json = JSON(value)
+                        print("json",json)
+                        if let status = json["properties"]["status"].string, status == "true" {
+                            guard let dataArr = json["properties"]["gallery"].array else {
+                                completion(nil, nil)
+                                return
+                            }
+                            let photo = GPhoto()
+                            photo.id = dataArr[0]["id"].int ?? 0
+                            photo.file = dataArr[0]["file"].string ?? ""
+                            photo.type = dataArr[0]["type"].string ?? ""
+                            photo.liked = dataArr[0]["liked"].int ?? 0
+                            photo.love = dataArr[0]["love"].int ?? 0
+                            photo.wow = dataArr[0]["wow"].int ?? 0
+                            
+                            
+                            completion(nil, photo)
+                            
+                        }else {
+                            print("Upload failure")
+                            completion(nil,nil)
+                        }
+                    }
+                }
+            case .failure(let error):
+                completion(error,nil)
             }
             
         }
@@ -213,33 +283,33 @@ extension ApiCalls{
                     let json = JSON(value)
                     
                     if let status = json["properties"]["status"].string,status ==  "true"{
-                            //  print(userData)
-                            firstPost.file = json["properties"]["gallery"]["file"].string ?? ""
-                            firstPost.galleryId = json["properties"]["gallery"]["gallery_id"].int ?? 0
-                            firstPost.hasLiked = json["properties"]["gallery"]["hasLiked"].string ?? "false"
-                            firstPost.hasLoved = json["properties"]["gallery"]["hasLoved"].string ?? "false"
-                            firstPost.hasWowed = json["properties"]["gallery"]["hasWowed"].string ?? "false"
-                            firstPost.liked = json["properties"]["gallery"]["liked"].int ?? 0
-                            firstPost.love = json["properties"]["gallery"]["love"].int ?? 0
-                            firstPost.wow = json["properties"]["gallery"]["wow"].int ?? 0
-                            firstPost.type = json["properties"]["gallery"]["type"].string ?? ""
-                            firstPost.totalComments = json["properties"]["total_comments"].int ?? 0
-                            firstPost.viewersCount = json["properties"]["viewersCount"].int ?? 0
+                        //  print(userData)
+                        firstPost.file = json["properties"]["gallery"]["file"].string ?? ""
+                        firstPost.galleryId = json["properties"]["gallery"]["gallery_id"].int ?? 0
+                        firstPost.hasLiked = json["properties"]["gallery"]["hasLiked"].string ?? "false"
+                        firstPost.hasLoved = json["properties"]["gallery"]["hasLoved"].string ?? "false"
+                        firstPost.hasWowed = json["properties"]["gallery"]["hasWowed"].string ?? "false"
+                        firstPost.liked = json["properties"]["gallery"]["liked"].int ?? 0
+                        firstPost.love = json["properties"]["gallery"]["love"].int ?? 0
+                        firstPost.wow = json["properties"]["gallery"]["wow"].int ?? 0
+                        firstPost.type = json["properties"]["gallery"]["type"].string ?? ""
+                        firstPost.totalComments = json["properties"]["total_comments"].int ?? 0
+                        firstPost.viewersCount = json["properties"]["viewersCount"].int ?? 0
                         
-//                        if let userData = json["properties"]["gallery"].array,userData.count > 0{
-//                            //  print(userData)
-//                            firstPost.file = userData[0]["file"].string ?? ""
-//                            firstPost.galleryId = userData[0]["gallery_id"].int ?? 0
-//                            firstPost.hasLiked = userData[0]["hasLiked"].string ?? "false"
-//                            firstPost.hasLoved = userData[0]["hasLoved"].string ?? "false"
-//                            firstPost.hasWowed = userData[0]["hasWowed"].string ?? "false"
-//                            firstPost.liked = userData[0]["liked"].int ?? 0
-//                            firstPost.love = userData[0]["love"].int ?? 0
-//                            firstPost.wow = userData[0]["wow"].int ?? 0
-//                            firstPost.type = userData[0]["type"].string ?? ""
-//                            firstPost.totalComments = json["properties"]["total_comments"].int ?? 0
-//                            firstPost.viewersCount = json["properties"]["viewersCount"].int ?? 0
-//                        }
+                        //                        if let userData = json["properties"]["gallery"].array,userData.count > 0{
+                        //                            //  print(userData)
+                        //                            firstPost.file = userData[0]["file"].string ?? ""
+                        //                            firstPost.galleryId = userData[0]["gallery_id"].int ?? 0
+                        //                            firstPost.hasLiked = userData[0]["hasLiked"].string ?? "false"
+                        //                            firstPost.hasLoved = userData[0]["hasLoved"].string ?? "false"
+                        //                            firstPost.hasWowed = userData[0]["hasWowed"].string ?? "false"
+                        //                            firstPost.liked = userData[0]["liked"].int ?? 0
+                        //                            firstPost.love = userData[0]["love"].int ?? 0
+                        //                            firstPost.wow = userData[0]["wow"].int ?? 0
+                        //                            firstPost.type = userData[0]["type"].string ?? ""
+                        //                            firstPost.totalComments = json["properties"]["total_comments"].int ?? 0
+                        //                            firstPost.viewersCount = json["properties"]["viewersCount"].int ?? 0
+                        //                        }
                         completion(nil, firstPost)
                     }else{
                         let exception = json["properties"]["exception"].string ?? ""

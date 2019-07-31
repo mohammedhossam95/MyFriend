@@ -11,9 +11,9 @@ import UIKit
 class ForgetPassVC: BaseViewController {
     
     @IBOutlet weak var emailView: UIView!
-    @IBOutlet weak var passView: UIView!
+//    @IBOutlet weak var passView: UIView!
     @IBOutlet weak var loginBtn: UIButton!
-    @IBOutlet weak var passTxt: UITextField!
+//    @IBOutlet weak var passTxt: UITextField!
     @IBOutlet weak var emailTxt: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +25,9 @@ class ForgetPassVC: BaseViewController {
     @IBAction func createNewAccountPressed(_ sender: UIButton) {
         
     }
-    
+    @IBAction func closeForgetView(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
     @IBAction func loginPressed(_ sender: UIButton) {
         //verify
         showLoading()
@@ -53,14 +55,8 @@ class ForgetPassVC: BaseViewController {
         emailView.layer.borderWidth = 1
         emailView.layer.masksToBounds = false
         emailView.layer.borderColor = UIColor(hexString: "bfbdbd").cgColor
-        
-        passView.layer.cornerRadius = 20.0
-        passView.clipsToBounds = true
-        passView.layer.borderWidth = 1
-        passView.layer.masksToBounds = false
-        passView.layer.borderColor = UIColor(hexString: "bfbdbd").cgColor
+
         emailTxt.attributedPlaceholder = NSAttributedString(string: "Email Or Phone", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-        passTxt.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white ])
     }
     
 }
@@ -73,21 +69,16 @@ extension ForgetPassVC {
             }else{
                 email = try verifyInput(emailTextField: emailTxt)
             }
-            let password = try verifyInput(passwordTextField: passTxt)
-            
-            ApiCalls.loginUser(phone: email, password: password) { (error: Error?, success: Bool, exception: String) in
-                if success {
+            ApiCalls.forgetUserPassword(phone: email) { (error: Error?, success: Bool, exception: String) in
+                if success && exception != ""{
                     self.hideLoading()
-                    print("User Logged successfully")
-                    guard let user_id1 = helper.getUserId() else {
-                        return
-                    }
-                    SocketIOManager.sharedInstance.sendOnlineStatus(user_id: user_id1)
+                    self.showAlertsuccess(title: exception)
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let SB = storyboard.instantiateViewController(withIdentifier: "ResetPasswordVC") as! ResetPasswordVC
+                    self.navigationController?.pushViewController(SB, animated: true)
                 }else {
-                    let alert = UIAlertController(title: "Check Credentials", message: "Please Check your credentials Email And password", preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "Try Again", style: UIAlertAction.Style.default, handler: nil))
+                    self.showAlertError(title: "Something went wrong, Try again")
                     self.hideLoading()
-                    self.present(alert, animated: true, completion: nil)
                 }
             }
         } catch {

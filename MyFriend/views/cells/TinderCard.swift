@@ -92,10 +92,6 @@ class TinderCard: UIView {
         }else {
             card_statusLbl.text = "online"
         }
-        //card_statusLbl.text = "\(viewModelCard.online)"
-       // let start_date = Date().getDateFromString(dateString: viewModelCard.start!)
-      //  let doNew = Date().dayDifference(date: start_date)
-      //  if doNew {new_img.alpha = 1} else {new_img.alpha = 0}
     }
 
     

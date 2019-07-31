@@ -52,6 +52,7 @@ class CommentsVC: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         SocketIOManager.sharedInstance.getComment { (comment:Comment) in
+            print(comment)
             DispatchQueue.main.async {
             if comment.gallery_id == self.id{
                 self.likesArr.append(comment)
@@ -101,10 +102,11 @@ class CommentsVC: BaseViewController {
     @IBAction func postComment(_ sender: UIButton) {
         if let comment = commentTxt.text, comment.isEmpty != true {
             if (commentTxt.text!.count) > 0 {
+                print("Comment From Mohammed ",Uid!,comment,self.id)
                 SocketIOManager.sharedInstance.sendCommentToServerSocket(user_id: Uid!, comment: comment, gallery_id: self.id)
                 commentTxt.endEditing(true)
                 commentTxt.text = ""
-                self.scrollToBottom()
+//                self.scrollToBottom()
                 commentTxt.resignFirstResponder()
             }
         }

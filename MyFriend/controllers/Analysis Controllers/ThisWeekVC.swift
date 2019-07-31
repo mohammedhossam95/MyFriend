@@ -85,7 +85,7 @@ class ThisWeekVC: BaseViewController {
         let entry6 = BarChartDataEntry(x: 6.0, y: Double(0))
         let entry7 = BarChartDataEntry(x: 7.0, y: Double(0))
         
-        let dataSet = BarChartDataSet(values: [entry1, entry2, entry3, entry4, entry5, entry6, entry7], label: "Today Report")
+        let dataSet = BarChartDataSet(entries: [entry1, entry2, entry3, entry4, entry5, entry6, entry7], label: "Today Report")
         let data = BarChartData(dataSets: [dataSet])
         barChart.data = data
         
@@ -106,7 +106,7 @@ class ThisWeekVC: BaseViewController {
         let entry4 = BarChartDataEntry(x: 4.0, y: Double(AgeProfileNum[3].value))
         let entry5 = BarChartDataEntry(x: 5.0, y: Double(AgeProfileNum[4].value))
         
-        let dataSet = BarChartDataSet(values: [entry1, entry2, entry3, entry4, entry5], label: "Age Profile")
+        let dataSet = BarChartDataSet(entries: [entry1, entry2, entry3, entry4, entry5], label: "Age Profile")
         let data = BarChartData(dataSets: [dataSet])
         
         horBarChart.data = data
@@ -130,7 +130,7 @@ class ThisWeekVC: BaseViewController {
         let entry4 = BarChartDataEntry(x: 4.0, y: Double(AgeFolllowsNum[3].value))
         let entry5 = BarChartDataEntry(x: 5.0, y: Double(AgeFolllowsNum[4].value))
         
-        let dataSet = BarChartDataSet(values: [entry1, entry2, entry3, entry4, entry5], label: "Age Profile")
+        let dataSet = BarChartDataSet(entries: [entry1, entry2, entry3, entry4, entry5], label: "Age Profile")
         let data = BarChartData(dataSets: [dataSet])
         
         horBarChart.data = data

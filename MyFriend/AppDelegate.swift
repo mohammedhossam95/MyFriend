@@ -9,6 +9,7 @@
 import UIKit
 import IQKeyboardManagerSwift
 import GoogleMobileAds
+import OneSignal
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,8 +26,55 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let tab = Storyboard.instantiateViewController(withIdentifier: "mainTab")
             window?.rootViewController = tab
         }
-        GADMobileAds.configure(withApplicationID: URLs.YOUR_Real_ADMOB_APP_ID)
+//        GADMobileAds.configure(withApplicationID: URLs.YOUR_ADMOB_APP_ID)
         IQKeyboardManager.shared.enable = true
+        
+        let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
+        
+        // Replace 'YOUR_APP_ID' with your OneSignal App ID.
+        OneSignal.initWithLaunchOptions(launchOptions,
+                                        appId: URLs.YOUR_ONESIGNAL_APP_ID,
+                                        handleNotificationAction: { result in
+                                            if let notification = result?.notification.payload {
+                                                //"New Request" "New Message"
+                                                guard let text = notification.title else {return}
+                                                
+                                            if text == "New Message"{
+                                                    if let data = notification.additionalData{
+                                                        
+                                                        //                        print("data\(data)")
+                                                        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                                                        let SB = storyBoard.instantiateViewController(withIdentifier: "ChatRoomVC") as! ChatRoomVC
+                                                        SB.userNameTxt = data["senderName"] as! String
+                                                        SB.profileImage = data["senderAvatar"] as! String
+//                                                        SB.chat_id = data["threadId"] as! Int
+//                                                        SB.id = data["senderId"] as! Int
+                                                        
+                                                        let tabsVC = storyBoard.instantiateViewController(withIdentifier: "tabsVC") as! TabsController
+                                                        
+//                                                        SB.callBackGetConversations = {
+//                                                            if let x = tabsVC.tabBar.items?[3].badgeValue {
+//                                                                var unreadInt = Int(x)
+//                                                                unreadInt = unreadInt! - 1
+//                                                                
+//                                                                tabsVC.tabBar.items?[3].badgeValue = unreadInt! <= 0 ? nil : "\(unreadInt!)"
+//                                                            }
+//                                                        }
+                                                        
+                                                        self.window?.rootViewController?.present(SB, animated: true, completion: nil)
+                                                    }
+                                                }
+                                            }
+        }
+            ,settings: onesignalInitSettings)
+        
+        OneSignal.inFocusDisplayType = OSNotificationDisplayType.notification;
+        
+        // Recommend moving the below line to prompt for push after informing the user about
+        //   how your app will use them.
+        OneSignal.promptForPushNotifications(userResponse: { accepted in
+            print("User accepted notifications: \(accepted)")
+        })
         return true
     }
 

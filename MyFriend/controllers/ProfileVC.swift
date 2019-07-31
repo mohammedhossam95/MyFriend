@@ -38,7 +38,7 @@ class ProfileVC: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         showSpecificLoading()
         self.setupView()
         self.handleProfileRefresh()
@@ -64,6 +64,7 @@ class ProfileVC: BaseViewController {
             }
         }
     }
+
     func handleProfileRefresh()  {
         ApiCalls.getProfile { (error: Error?, profile: Profile?) in
             if let profile = profile{
@@ -101,7 +102,7 @@ class ProfileVC: BaseViewController {
     }
     @IBAction func previewEditInfo(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let VC = storyboard.instantiateViewController(withIdentifier: "EditProfileVC") as! EditProfileVC
+        let VC = storyboard.instantiateViewController(withIdentifier: "EditUserProfileTableVC") as! EditUserProfileTableVC
         //VC.galleryPresenting = gallery
         self.navigationController?.pushViewController(VC, animated: true)
    

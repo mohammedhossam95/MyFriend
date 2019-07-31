@@ -205,7 +205,7 @@ extension ApiCalls{
                             guard let data = data.dictionary else { return }
                             
                             let hobbie = data["hobbie"]?.string ?? ""
-                            firstPost.hobbies += "  \(hobbie)  "
+                            firstPost.hobbies.append(hobbie)
                         }
                         
                         completion(nil, firstPost)

@@ -9,6 +9,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import SwiftMoment
 
 extension ApiCalls{
     
@@ -54,7 +55,11 @@ extension ApiCalls{
                         unMessage.seen = data["seen"]?.int ?? 0
                         unMessage.online = data["online"]?.int ?? 0
                         unMessage.last_message_icon = data["last_message_icon"]?.string ?? ""
-                        unMessage.created_at = data["created_at"]?.string ?? ""
+                        let strDate = "\(data["created_at"]?.string ?? "")"
+                        print(strDate," test ",moment(strDate.timestamp).fromNow())
+                        unMessage.created_at = moment(strDate.timestamp).fromNow()
+//                        unMessage.created_at = data["created_at"]?.string ?? ""
+                        
                         unMessage.count_unread_msg = data["count_unread_msg"]?.int ?? 0
                         unMessage.last_message = data["last_message"]?.string ?? ""
                         
@@ -113,9 +118,10 @@ extension ApiCalls{
                         message.type = data["type"]?.string ?? ""
                         message.file = data["file"]?.string ?? ""
                         message.seen = data["seen"]?.int ?? 0
-                        message.date = data["date"]?.string ?? ""
-                        message.time = data["time"]?.string ?? ""
-                        
+//                        message.time = data["time"]?.string ?? ""
+                        let strDate = "\(data["date"]?.string ?? "") \(data["time"]?.string ?? "")"
+                        message.time = moment(strDate.timestamp).fromNow()
+                        message.date = moment(strDate.timestamp).fromNow()
                         Messages.append(message)
                     }
                     let total_data = json["properties"]["total_messages"].int ?? 1

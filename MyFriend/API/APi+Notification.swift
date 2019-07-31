@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Alamofire
 import SwiftyJSON
+import SwiftMoment
 
 extension ApiCalls{
     
@@ -57,8 +58,9 @@ extension ApiCalls{
                         firstPost.mimo_type = data["mimo_type"]?.string ?? ""
                         firstPost.text = data["text"]?.string ?? ""
                         firstPost.reference = data["reference"]?.string ?? ""
-                        firstPost.time = data["time"]?.string ?? ""
-                        firstPost.date = data["date"]?.string ?? ""
+                        let strDate = "\(data["date"]?.string ?? "") \(data["time"]?.string ?? "")"
+                        firstPost.time = moment(strDate.timestamp).fromNow()
+                        firstPost.date = moment(strDate.timestamp).fromNow()
                         firstPost.seen = data["seen"]?.int ?? 0
                         firstPost.type = data["type"]?.int ?? 0
                         

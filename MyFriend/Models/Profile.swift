@@ -38,5 +38,5 @@ class infoProfile: NSObject {
     var interest_in : String = ""
     var bio : String = ""
     var work : String = ""
-    var hobbies : String = ""
+    var hobbies: [String] = []
 }

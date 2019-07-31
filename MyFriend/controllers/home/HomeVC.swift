@@ -87,8 +87,10 @@ class HomeVC: BaseViewController{
             }
         }
         SocketIOManager.sharedInstance.getHomePostsSockets { (post: HomePost) in
+            print("post socket ",post)
             DispatchQueue.main.async {
                 if post.status != "false"{
+                    
                     self.tablePosts.append(post)
                     self.handlePosts()
                 }else {
@@ -420,7 +422,6 @@ extension HomeVC : UITableViewDelegate,UITableViewDataSource{
         let count = self.tablePosts.count
         
         if indexPath.row == count - 1 {
-            print("\(indexPath.row) count \(count)")
             self.LoadMore()
         }
     }
@@ -605,7 +606,8 @@ extension HomeVC : UITableViewDelegate,UITableViewDataSource{
                 if tablePosts[indexPath.row-1].hasStroy == "true" {
                     cell.postPhoto.isHidden = false
                     cell.StoryTextLbl.isHidden = false
-                    cell.StoryTextLbl.text = "#yourStory&Photo Read More ..."
+//                    cell.StoryTextLbl.text = "#yourStory&Photo Read More ..."
+                    cell.StoryTextLbl.text = tablePosts[indexPath.row-1].text
                     cell.postPhoto.kf.indicatorType = .activity
                     if let url = URL(string: "\(URLs.photoMain)\(tablePosts[indexPath.row-1].galleryFile)"){
                         cell.postPhoto.contentMode = .scaleAspectFill

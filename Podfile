@@ -24,6 +24,15 @@ pod 'GravitySliderFlowLayout'
 pod 'Charts'
 pod 'Google-Mobile-Ads-SDK'
 pod 'iOSPhotoEditor'
+pod 'YPImagePicker'
+pod 'WSTagsField'
+pod 'WXImageCompress'
+pod 'SwiftMoment'
+pod 'SCLAlertView'
+pod 'Material'
+pod 'PhoneNumberKit', '~> 2.6'
+pod 'OneSignal', '>= 2.6.2', '< 3.0'
+
 end
 post_install do |installer|
     installer.pods_project.targets.each do |target|
@@ -31,4 +40,8 @@ post_install do |installer|
             config.build_settings['CLANG_WARN_DOCUMENTATION_COMMENTS'] = 'NO'
         end
     end
+end
+target 'Myfriend-app' do
+  use_frameworks!
+  pod 'OneSignal', '>= 2.6.2', '< 3.0'
 end

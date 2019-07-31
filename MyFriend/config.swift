@@ -11,9 +11,10 @@ struct URLs {
 
     ///server for ad`s
     //ca-app-pub-1940793456791298~8791159745
-    static let YOUR_Real_ADMOB_APP_ID = "ca-app-pub-1940793456791298~8791159745"
+//    static let YOUR_Real_ADMOB_APP_ID = "ca-app-pub-1940793456791298~8791159745"
     static let YOUR_ADMOB_APP_ID = "ca-app-pub-8501671653071605~9497926137"
     static let bannarId = "ca-app-pub-1940793456791298/2313327401"
+    static let YOUR_ONESIGNAL_APP_ID = "7eb4ad5d-4002-4451-9732-099eb3117b8f"
     
     ///password  for server for all end points
     static let api_password = "Pa$$w0rds"
@@ -24,7 +25,7 @@ struct URLs {
     ///server for Photo
     static let photoMain = "https://www.myfriend-app.com/"
     
-    static let mainSocket = "https://www.myfriend-app.com:4498"
+    static let mainSocket = "https://www.myfriend-app.com:4499"
     ///static let mainSocket = "https://www.myfriend-app.com:44499"
     
     ///Login Method -post- pararmeters api_password email or phone password
@@ -36,7 +37,7 @@ struct URLs {
     ///Login Method -post- pararmeters api_password email or phone password
     static let confirm = main + "auth/activation"
     
-    ///forget Password Method -post- pararmeters api_password or email - phone
+    ///forget Password Method -post- pararmeters api_password and email or phone
     static let forgetPassword = main + "auth/forget"
     
     ///reset Password Method -post- pararmeters api_password, activation_key - password or con_password

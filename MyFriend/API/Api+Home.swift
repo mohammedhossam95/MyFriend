@@ -11,6 +11,7 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 import ObjectMapper
+import SwiftMoment
 
 extension ApiCalls{
     
@@ -52,7 +53,8 @@ extension ApiCalls{
                             guard let data = data.dictionary else { return }
                             let firstPost = HomePost()
                             firstPost.name = data["name"]?.string ?? ""
-                            firstPost.time = data["time"]?.string ?? ""
+                            let strDate = "\(data["date"]?.string ?? "") \(data["time"]?.string ?? "")"
+                            firstPost.time = moment(strDate.timestamp).fromNow()
                             firstPost.type = data["type"]?.string ?? ""
                             firstPost.avatar = data["avatar"]?.string ?? ""
                             firstPost.galleryFile = data["gallery_file"]?.string ?? ""

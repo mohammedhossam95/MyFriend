@@ -1,0 +1,6 @@
+framework module Pods_Myfriend_app {
+  umbrella header "Pods-Myfriend-app-umbrella.h"
+
+  export *
+  module * { export * }
+}

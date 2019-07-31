@@ -32,6 +32,7 @@ class ApiCalls: NSObject {
                 case .success(let value):
                     
                     let json = JSON(value)
+                    print(json)
                     // let def = UserDefaults.standard
                     if let status = json["properties"]["status"].string,status ==  "true"{
                     if let userData = json["properties"]["data"].array,userData.count > 0{
@@ -143,6 +144,77 @@ class ApiCalls: NSObject {
                         completion(nil,false)
                     }
                 }
+        }
+        
+    }
+    class func forgetUserPassword(phone: String, completion: @escaping (_ error: Error?, _ success: Bool, _ exception: String)->Void){
+        let url = URLs.forgetPassword
+        let parameters =
+            [
+                "username":phone,
+                "api_password":URLs.api_password
+        ]
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil)
+            
+            .responseJSON { response in
+                switch response.result
+                {
+                case .failure(let error):
+                    completion(error,false, "")
+                    print(error)
+                case .success(let value):
+                    
+                    let json = JSON(value)
+                    // let def = UserDefaults.standard
+                    if let status = json["properties"]["status"].string,status ==  "true"{
+                            if let exception = json["properties"]["exception"].string {
+                                completion(nil,true, exception)
+                            }
+                    }else if let exception = json["properties"]["exception"].string{
+                        completion(nil,false, exception)
+                    
+                    }else{
+                        completion(nil,false, "")
+                    }
+                }
+        }
+        
+    }
+    //Reset Password
+    class func resetUserPassword(code: String, password: String, rePassword: String, completion: @escaping (_ error: Error?, _ success: Bool, _ exception: String)->Void){
+        let url = URLs.resetPassword
+        let parameters =
+            [
+                "activation_key":code,
+                "password":password,
+                "con_password":rePassword,
+                "api_password":URLs.api_password
+        ]
+        Alamofire.request(url, method: .post, parameters: parameters, encoding: URLEncoding.default, headers: nil)
+            
+            .responseJSON { response in
+                switch response.result
+                {
+                case .failure(let error):
+                    completion(error,false, "")
+                    print(error)
+                case .success(let value):
+                    
+                    let json = JSON(value)
+                    if let status = json["properties"]["status"].string,status ==  "true"{
+                        if let exception = json["properties"]["exception"].string{
+                            completion(nil,true, exception)
+                        }
+                    }else if let exception = json["properties"]["exception"].string,exception ==  "Incorrect Activation key" {
+                        completion(nil,false, "Incorrect Activation key")
+                    }
+                    else{
+                        completion(nil,false, "")
+                    }
+                    
+                }
+                
+                
         }
         
     }

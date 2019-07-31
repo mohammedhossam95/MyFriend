@@ -9,6 +9,7 @@
 import UIKit
 import SwiftMessages
 import AVFoundation
+import SCLAlertView
 
 class BaseViewController: UIViewController {
 
@@ -116,7 +117,8 @@ class BaseViewController: UIViewController {
     func showSpecificLoading() {
         if  let appDelegate = UIApplication.shared.delegate as? AppDelegate,
             let window = appDelegate.window {
-            overlayView2.frame = CGRect(x:0, y:0, width: window.frame.width , height: window.frame.height - 60)
+            let height = window.frame.height >= 812 ? window.frame.height - 82.6 : window.frame.height-49.6
+            overlayView2.frame = CGRect(x:0, y:0, width: window.frame.width , height: height)
             overlayView2.backgroundColor = UIColor.white
             overlayView2.clipsToBounds = true
             overlayView2.layer.cornerRadius = 10
@@ -141,4 +143,58 @@ class BaseViewController: UIViewController {
     }
 }
 
-
+class BaseTableViewController: UITableViewController {
+    var overlayView = UIView()
+    var activityIndicator = UIActivityIndicatorView()
+    
+    func showSpecificLoading() {
+        if  let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+            let window = appDelegate.window {
+            overlayView.frame = CGRect(x:0, y:0, width: window.frame.width , height: window.frame.height)
+            overlayView.backgroundColor = UIColor.white
+            activityIndicator.frame = CGRect(x:0, y:0, width:60, height:60)
+            activityIndicator.style = .whiteLarge
+            activityIndicator.color = UIColor(hexString: "F78161")
+            activityIndicator.center = CGPoint(x: overlayView.bounds.width / 2, y: overlayView.bounds.height / 2)
+            overlayView.addSubview(activityIndicator)
+            window.addSubview(overlayView)
+            activityIndicator.startAnimating()
+        }
+    }
+    
+    func hideSpecificLoading() {
+        activityIndicator.stopAnimating()
+        overlayView.removeFromSuperview()
+    }
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        hideLoading()
+        hideSpecificLoading()
+    }
+    
+    var overlayView1 = UIView()
+    var activityIndicator1 = UIActivityIndicatorView()
+    
+    func showLoading() {
+        if  let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+            let window = appDelegate.window {
+            
+            let height = window.frame.height >= 812 ? window.frame.height - 82.6 : window.frame.height-49.6
+            overlayView1.frame = CGRect(x:0, y:0, width: window.frame.width , height: height)
+            overlayView1.backgroundColor = UIColor.white
+            activityIndicator1.frame = CGRect(x:0, y:0, width:60, height:60)
+            activityIndicator1.style = .whiteLarge
+            activityIndicator1.color = UIColor(hexString: "F78161")
+            activityIndicator1.center = CGPoint(x: overlayView1.bounds.width / 2, y: overlayView1.bounds.height / 2)
+            overlayView1.addSubview(activityIndicator1)
+            window.addSubview(overlayView1)
+            activityIndicator1.startAnimating()
+        }
+    }
+    
+    func hideLoading() {
+        activityIndicator1.stopAnimating()
+        overlayView1.removeFromSuperview()
+    }
+    
+}

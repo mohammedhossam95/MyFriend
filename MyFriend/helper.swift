@@ -16,6 +16,11 @@ class helper: NSObject {
         def.synchronize()
         restartApp()
     }
+    class func getApiToken() -> String? {
+        let def = UserDefaults.standard
+        let token = def.object(forKey: "user_token") as? String
+        return token
+    }
     class func saveUserInfo(user_id: Int,username: String,avatar: String,bgGallery: String)   {
         let def = UserDefaults.standard
         def.set(user_id, forKey: "user_id")
@@ -29,12 +34,6 @@ class helper: NSObject {
         let def = UserDefaults.standard
         def.set(avatar, forKey: "avatar")
         def.synchronize()
-    }
-    
-    class func getApiToken() -> String? {
-        let def = UserDefaults.standard
-        let token = def.object(forKey: "user_token") as? String
-        return token
     }
     
     class func getUsername() -> String? {

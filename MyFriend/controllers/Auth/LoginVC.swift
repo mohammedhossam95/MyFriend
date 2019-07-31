@@ -23,6 +23,9 @@ class LoginVC: BaseViewController {
         // Do any additional setup after loading the view.
     }
     @IBAction func createNewAccountPressed(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let SB = storyboard.instantiateViewController(withIdentifier: "ForgetPassVC") as! ForgetPassVC
+        self.navigationController?.pushViewController(SB, animated: true)
 
     }
     
@@ -74,7 +77,7 @@ extension LoginVC {
                 email = try verifyInput(emailTextField: emailTxt)
             }
             let password = try verifyInput(passwordTextField: passTxt)
-           
+           print(email,password)
             ApiCalls.loginUser(phone: email, password: password) { (error: Error?, success: Bool, exception: String) in
                 if success && exception == "" {
                     self.hideLoading()

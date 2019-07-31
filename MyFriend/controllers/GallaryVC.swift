@@ -12,6 +12,7 @@ import AVFoundation
 import AVKit
 import CoreMedia
 import Fusuma
+import WXImageCompress
 
 class GallaryVC: BaseViewController {
     
@@ -29,6 +30,9 @@ class GallaryVC: BaseViewController {
         handleGalleryRefresh()
         galleryCollection.alwaysBounceVertical = true
         self.galleryCollection.addSubview(refresher)
+        
+        
+        
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -37,19 +41,18 @@ class GallaryVC: BaseViewController {
             DispatchQueue.main.async { [weak self] in
                 if post.status != "false"{
                     
-                    self?.preGallery.append(post)
+//                    self?.preGallery.append(post)
                     self?.handleGalleryRefresh()
                 }else {
-
+                    
                     let alertController = UIAlertController(title: "Something Error", message:  post.exception, preferredStyle: .alert)
                     let Confirm = UIAlertAction(title: "Try Again", style: .cancel)
                     alertController.addAction(Confirm)
                     self?.navigationController?.present(alertController, animated: true, completion: nil)
-
+                    
                 }
             }
         }
-
     }
     var isLoading = false
     var current_page = 1
@@ -149,7 +152,7 @@ class GallaryVC: BaseViewController {
             guard let image = picker_image else { return }
             let uid = helper.getUserId()
             
-            let imageData = image.jpegData(compressionQuality: 0.5)
+            let imageData = image.wxCompress().jpegData(compressionQuality: 0.5)
             let base64String =  imageData?.base64EncodedString(options: [])
             guard let base64 = base64String else { return }
             let base64String1 = "data:image/jpeg;base64,\(base64)"
@@ -223,13 +226,24 @@ class GallaryVC: BaseViewController {
             do {
                 self.showLoading()
                 let videoData: Data = try Data(contentsOf: video)
-                let videoBase64String = videoData.base64EncodedString(options: .lineLength64Characters)
+                
+                let videoBase64String = videoData.base64EncodedString()
                 let base64String1 = "data:video/mp4;base64,\(videoBase64String)"
                 
 
                     //print(base64String1)
                 SocketIOManager.sharedInstance.sendVideoToServerSocket(user_id: uid!, text: "", fileBase64: base64String1, fileType: "video")
                 self.hideLoading()
+                
+                
+                ApiCalls.uploadVideo(file: video, completion: { (error: Error?, gphoto: GPhoto?) in
+                    if let gphoto = gphoto {
+                        print("Test success uploading")
+                        print(gphoto.file)
+                    }else {
+                        print("test Uploading",error ?? "error Localized")
+                    }
+                })
                 
             } catch let error{
                 print(error.localizedDescription)

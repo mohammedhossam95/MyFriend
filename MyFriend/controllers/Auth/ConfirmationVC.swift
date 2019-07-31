@@ -36,7 +36,11 @@ class ConfirmationVC: BaseViewController, OTPTextViewDelegate {
                     print(error?.localizedDescription as Any)
                 }
             }
+        }else {
+            hideLoading()
+            showAlertError(title: "Code is Empty")
         }
+        
     }
     
     
@@ -88,8 +92,5 @@ class ConfirmationVC: BaseViewController, OTPTextViewDelegate {
         OTPTextVU.gape = 10
         OTPTextVU.showCursor = false
         OTPTextVU.fontSize = 18
-        
-        
-        
     }
 }

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SwiftMoment
 
 extension String {
     
@@ -220,5 +221,23 @@ extension String {
         }
         
         return result
+    }
+    
+    var timestamp: Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd h:mm a"
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        return dateFormatter.date(from: self) ?? Date()
+    }
+}
+extension UIViewController{
+    func momentTime(webDate: String) -> String {
+        let dat = "\(webDate)+0000"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        let date = dateFormatter.date(from:dat)!
+        let x = moment(date).fromNow()
+        return x
     }
 }
