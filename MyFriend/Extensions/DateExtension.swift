@@ -92,8 +92,6 @@ extension Date {
     var isEqualCurrentDate: Bool{
         return (NSDate().compare(self) == ComparisonResult.orderedSame)
     }
-    
-    
 }
 
 

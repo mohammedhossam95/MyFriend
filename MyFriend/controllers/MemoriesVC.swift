@@ -8,31 +8,15 @@
 
 import UIKit
 import Kingfisher
+import YPImagePicker
 
 class MemoriesVC: BaseViewController {
     
     @IBOutlet weak var memoryImage: UIImageView!
     @IBOutlet weak var memoryText: UITextView!
     @IBOutlet weak var btn: UIButton!
-    var imagePiker: UIImagePickerController!
-    var photo: String = ""
     
-    var picker_image: UIImage?{
-        didSet{
-            guard let image = picker_image else { return }
-            
-            self.memoryImage.image = image
-            let imageData = image.jpegData(compressionQuality: 0.5)
-            let base64String =  imageData?.base64EncodedString(options: [])
-            guard let base64 = base64String else { return }
-            let base64String1 = "data:image/jpeg;base64,\(base64)"
-            photo = base64String1
-            // print("the first photo is \(base64String1) the end")
-            //SocketIOManager.sharedInstance.sendVideoToServerSocket(user_id: uid!, fileBase64: base64String1, fileType: "image")
-            
-
-        }
-    }
+    var photo: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,21 +24,61 @@ class MemoriesVC: BaseViewController {
         SetupView()
         // Do any additional setup after loading the view.
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        SocketIOManager.sharedInstance.getgalleryPostsSockets { (post: GPhoto) in
+            DispatchQueue.main.async { [weak self] in
+                if post.status != "false"{
+                    let alertController = UIAlertController(title: "post", message: "User Memory Uploaded Succesfully", preferredStyle: .alert)
+                    let okBtn = UIAlertAction(title: "OK", style: .cancel) { (action) in
+                        self?.back()
+                    }
+                    alertController.addAction(okBtn)
+                    self?.navigationController?.present(alertController, animated: true, completion: nil)
+                    
+                }else {
+                    let alertController = UIAlertController(title: "Something Error", message:  post.exception, preferredStyle: .alert)
+                    alertController.addAction(UIAlertAction(title: "Try Again", style: .cancel))
+                    self?.navigationController?.present(alertController, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+   
     @IBAction func backPressed(_ sender: UIButton) {
-        _ = self.navigationController?.popViewController(animated: true)
+        self.back()
     }
     
     @IBAction func ChangePhoto(_ sender: UIButton) {
-        
-        imagePiker = UIImagePickerController()
-        imagePiker.allowsEditing = true
-        imagePiker.sourceType = .photoLibrary
-        imagePiker.setEditing(true, animated: true)
-        imagePiker.mediaTypes = ["public.image"]
-        imagePiker.delegate = self
-        self.present(imagePiker, animated: true, completion: nil)
-        
+        changePic()
+    }
+    
+    @objc func changePic() {
+        var config = YPImagePickerConfiguration()
+        config.showsPhotoFilters = true
+        config.startOnScreen = .library
+        config.hidesStatusBar = false
+        config.screens = [.library]
+        config.isScrollToChangeModesEnabled = false
+        config.library.maxNumberOfItems = 1
+        config.library.mediaType = .photo
+        let picker = YPImagePicker(configuration: config)
+        picker.didFinishPicking { [unowned picker] items, cancelled in
+            if cancelled {
+                picker.dismiss(animated: true, completion: nil)
+                return
+            }
+            if let photo = items.singlePhoto {
+                let imageData = photo.image.wxCompress().jpegData(compressionQuality: 0.5)
+                let base64String =  imageData?.base64EncodedString(options: [])
+                guard let base64 = base64String else { return }
+                let base64String1 = "data:image/jpeg;base64,\(base64)"
+                self.photo = base64String1
+                self.memoryImage.image = photo.image
+            }
+            picker.dismiss(animated: true, completion: nil)
+        }
+        self.present(picker, animated: true, completion: nil)
     }
     
     @IBAction func postMemory(_ sender: UIButton) {
@@ -65,24 +89,11 @@ class MemoriesVC: BaseViewController {
                 showAlertError(title: "Enter Text first")
                 return}
             SocketIOManager.sharedInstance.sendVideoToServerSocket(user_id: uid!, text: storyText, fileBase64: photo, fileType: "image")
-            let alertController = UIAlertController(title: "post", message: "User Memory Uploaded Succesfully", preferredStyle: .alert)
-            
-            
-            let cancelBtn = UIAlertAction(title: "OK", style: .cancel) { (action) in
-                print("Cancel btn")
-            }
-            alertController.addAction(cancelBtn)
-            
-            self.navigationController?.present(alertController, animated: true, completion: nil)
             self.hideLoading()
         }else {
             self.hideLoading()
-            let alertController = UIAlertController(title: "post", message: "Please fill all fields", preferredStyle: .alert)
-            let cancelBtn = UIAlertAction(title: "Try Again", style: .cancel) { (action) in
-                print("Cancel btn")
-                _ = self.navigationController?.popViewController(animated: true)
-            }
-            alertController.addAction(cancelBtn)
+            let alertController = UIAlertController(title: "Warning", message: "Please fill all fields", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Try again", style: .cancel))
             self.navigationController?.present(alertController, animated: true, completion: nil)
         }
 
@@ -98,22 +109,6 @@ class MemoriesVC: BaseViewController {
         
         btn.layer.cornerRadius = 10.0
         btn.clipsToBounds = true
-        
-    }
-}
-extension MemoriesVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-         if let editedImage = info[.editedImage] as? UIImage{
-            self.picker_image = editedImage
-        }else if let originalImage = info[.originalImage] as? UIImage {
-            self.picker_image = originalImage
-        }
-        imagePiker.dismiss(animated: true, completion: nil)
-        
     }
 }
 extension MemoriesVC: UITextViewDelegate{

@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import OneSignal
 
 class ProfileVC: BaseViewController {
     
@@ -136,30 +137,12 @@ class ProfileVC: BaseViewController {
     }
     
     @IBAction func logoutPress(_ sender: UIButton) {
-        
-        
         let alertController = UIAlertController(title: "Confirm", message: "Do you really want to logout...", preferredStyle: .alert)
-        
-        let logout = UIAlertAction(title: "Log Out", style: .default) { (action) in
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "Log Out", style: .default) { (action) in
             self.Logout()
-        }
-        
-        let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-            print("Cancel btn")
-        }
-        
-        alertController.addAction(cancelBtn)
-        alertController.addAction(logout)
-//        alertController.popoverPresentationController?.sourceView = self.view
-//        alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
-//        alertController.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-//
+        })
         self.navigationController?.present(alertController, animated: true, completion: nil)
-        
-        
-        
-    
-
     }
     
     @IBAction func previewFollowers(_ sender: UIButton) {
@@ -182,14 +165,15 @@ class ProfileVC: BaseViewController {
         def.removeObject(forKey: "username")
         def.removeObject(forKey: "avatar")
         def.removeObject(forKey: "bgGallery")
-        
+        OneSignal.removeExternalUserId()
+        OneSignal.setSubscription(false)
         
         let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
         let redViewController = mainStoryBoard.instantiateInitialViewController()
-        //  let redViewController = mainStoryBoard.instantiateViewController(withIdentifier: "RegisterVC") as! RegisterVC
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.window?.rootViewController = redViewController
     }
+    
     func setupView() {
         
         profileImageView.layer.cornerRadius = profileImageView.bounds.height / 2
@@ -230,7 +214,7 @@ class ProfileVC: BaseViewController {
         
         goView.layer.cornerRadius = 10.0
         goView.clipsToBounds = true
-        
+
     }
     
     // MARK: Func of all views in controller

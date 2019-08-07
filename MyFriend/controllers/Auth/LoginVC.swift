@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import OneSignal
 
 class LoginVC: BaseViewController {
     
@@ -33,11 +34,6 @@ class LoginVC: BaseViewController {
         //verify
         showLoading()
         self.checkInput()
-        //call api
-        //handle response
-        
-        // helper.saveApiToken()
-        
     }
     
     @IBAction func gmailLoginPressed(_ sender: UIButton) {
@@ -66,8 +62,6 @@ class LoginVC: BaseViewController {
         passTxt.attributedPlaceholder = NSAttributedString(string: "Password", attributes: [NSAttributedString.Key.foregroundColor: UIColor.white ])
     }
     
-}
-extension LoginVC {
     func checkInput()  {
         let email:String
         do {
@@ -86,6 +80,9 @@ extension LoginVC {
                         return
                     }
                     SocketIOManager.sharedInstance.sendOnlineStatus(user_id: user_id1)
+                    OneSignal.setExternalUserId("\(user_id1)")
+                    OneSignal.setSubscription(true)
+                    
                 }else if !success && exception == "Account not activated" {
                     
                     let alert = UIAlertController(title: "Account not activated", message: "Please Activate your Account", preferredStyle: .alert)

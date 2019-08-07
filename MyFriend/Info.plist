@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>GADApplicationIdentifier</key>
-    <string>ca-app-pub-1940793456791298~8791159745</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-1940793456791298~8791159745</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -49,6 +49,14 @@
 	<string>This app requires access to write photos to the photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This lets you share photos from your library and save photos to your camera roll</string>
+    <key>UIAppFonts</key>
+    <array>
+        <string>Montserrat-Bold.ttf</string>
+        <string>Montserrat-Light.ttf</string>
+        <string>Montserrat-Medium.ttf</string>
+        <string>Montserrat-Regular.ttf</string>
+        <string>Montserrat-SemiBold.ttf</string>
+    </array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

@@ -13,6 +13,7 @@ import AVKit
 import CoreMedia
 import Fusuma
 import WXImageCompress
+import YPImagePicker
 
 class GallaryVC: BaseViewController {
     
@@ -30,9 +31,6 @@ class GallaryVC: BaseViewController {
         handleGalleryRefresh()
         galleryCollection.alwaysBounceVertical = true
         self.galleryCollection.addSubview(refresher)
-        
-        
-        
         // Do any additional setup after loading the view.
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -114,51 +112,59 @@ class GallaryVC: BaseViewController {
         }
     }
     
-    func openCamera() {
-        imagePiker = UIImagePickerController()
-        if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
-            imagePiker.sourceType = UIImagePickerController.SourceType.camera
-            imagePiker.delegate = self
-            imagePiker.allowsEditing = true
-            imagePiker.videoMaximumDuration = 40.0
-            imagePiker.videoQuality = .typeMedium
-            imagePiker.setEditing(true, animated: true)
-            imagePiker.mediaTypes = ["public.image", "public.movie"]
-            present(imagePiker, animated: true, completion: nil)
-        }else {
-            opengallery()
+    @objc func changePic() {
+        var config = YPImagePickerConfiguration()
+        config.showsPhotoFilters = true
+        config.startOnScreen = .library
+        config.hidesStatusBar = false
+        config.screens = [.library, .photo, .video]
+        config.video.compression = AVAssetExportPresetHighestQuality
+        config.video.fileType = .mov
+        config.showsVideoTrimmer = true
+        config.isScrollToChangeModesEnabled = false
+        config.library.maxNumberOfItems = 1
+        config.library.mediaType = .photoAndVideo
+        let picker = YPImagePicker(configuration: config)
+        picker.didFinishPicking { [unowned picker] items, cancelled in
+            if cancelled {
+                picker.dismiss(animated: true, completion: nil)
+                return
+            }
+            if let photo = items.singlePhoto {
+                let uid = helper.getUserId()
+                
+                let imageData = photo.image.wxCompress().jpegData(compressionQuality: 0.5)
+                let base64String =  imageData?.base64EncodedString(options: [])
+                guard let base64 = base64String else { return }
+                let base64String1 = "data:image/jpeg;base64,\(base64)"
+                SocketIOManager.sharedInstance.sendVideoToServerSocket(user_id: uid!, text: "", fileBase64: base64String1, fileType: "image")
+                
+            }else if let video = items.singleVideo {
+                self.showLoading()
+                DispatchQueue.main.async {
+                        self.showLoading()
+                        ApiCalls.uploadVideo(file: video.url, completion: { (error: Error?, gphoto: GPhoto?) in
+                            if gphoto != nil {
+                                
+                                self.handleGalleryRefresh()
+                                self.hideLoading()
+                            }else {
+                                self.hideLoading()
+                                print("test Uploading",error ?? "error Localized")
+                            }
+                        })
+                }
+            }
+            picker.dismiss(animated: true, completion: nil)
         }
+        self.present(picker, animated: true, completion: nil)
     }
+    
+
     func addMemory() {
         let storyboard = UIStoryboard(name: "MainTab", bundle: nil)
         let VC = storyboard.instantiateViewController(withIdentifier: "MemoriesVC") as! MemoriesVC
         self.navigationController?.pushViewController(VC, animated: true)
-    }
-    
-    func opengallery() {
-        imagePiker = UIImagePickerController()
-        imagePiker.allowsEditing = true
-        imagePiker.sourceType = .photoLibrary
-        imagePiker.videoMaximumDuration = 40.0
-        imagePiker.videoQuality = .typeMedium
-        imagePiker.setEditing(true, animated: true)
-        imagePiker.mediaTypes = ["public.image", "public.movie"]
-        imagePiker.delegate = self
-        self.present(imagePiker, animated: true, completion: nil)
-    }
-    var picker_image: UIImage?{
-        didSet{
-            self.showLoading()
-            guard let image = picker_image else { return }
-            let uid = helper.getUserId()
-            
-            let imageData = image.wxCompress().jpegData(compressionQuality: 0.5)
-            let base64String =  imageData?.base64EncodedString(options: [])
-            guard let base64 = base64String else { return }
-            let base64String1 = "data:image/jpeg;base64,\(base64)"
-            // print("the first photo is \(base64String1) the end")
-            SocketIOManager.sharedInstance.sendVideoToServerSocket(user_id: uid!, text: "", fileBase64: base64String1, fileType: "image")
-        }
     }
 
     private func handleDelete(story: GPhoto, indexPath: IndexPath) {
@@ -178,77 +184,6 @@ class GallaryVC: BaseViewController {
                 self.hideLoading()
                 self.showAlertError(title: status)
                 //print(error?.localizedDescription as Any)
-            }
-        }
-    }
-//    var videoUrl: URL?{
-//        didSet{
-//            self.showLoading()
-//            guard let video = videoUrl else { return }
-//            DispatchQueue.global(qos: .background).async {
-//                print("This is run on the background queue")
-//                ApiCalls.uploadGalleryVideo(avatar: video) { (error: Error?, success: Bool) in
-//                    self.showLoading()
-//                    if success {
-//                        self.hideLoading()
-//                        let alertController = UIAlertController(title: "Photo Update", message: "Your Photo was Updated Succesfully", preferredStyle: .alert)
-//                        let cancelBtn = UIAlertAction(title: "OK", style: .cancel) { (action) in
-//                            print("Cancel btn")
-//                        }
-//                        alertController.addAction(cancelBtn)
-//
-//                        self.navigationController?.present(alertController, animated: true, completion: nil)
-//                    }else {
-//                        let alertController = UIAlertController(title: "Try Again", message: "Upload Failure", preferredStyle: .alert)
-//                        let cancelBtn = UIAlertAction(title: "OK", style: .cancel)
-//                        alertController.addAction(cancelBtn)
-//                        self.navigationController?.present(alertController, animated: true, completion: nil)
-//
-//                        self.hideLoading()
-//                        print(error?.localizedDescription as Any)
-//                    }
-//                }
-//                DispatchQueue.main.async {
-//                    self.hideLoading()
-//                    }
-//
-//            }
-//        }
-//    }
-    
-    var videoUrl: URL?{
-        didSet{
-            self.showLoading()
-            guard let video = videoUrl else { return }
-            let uid = helper.getUserId()
-            DispatchQueue.main.async {
-                print("This is run on the background queue")
-            do {
-                self.showLoading()
-                let videoData: Data = try Data(contentsOf: video)
-                
-                let videoBase64String = videoData.base64EncodedString()
-                let base64String1 = "data:video/mp4;base64,\(videoBase64String)"
-                
-
-                    //print(base64String1)
-                SocketIOManager.sharedInstance.sendVideoToServerSocket(user_id: uid!, text: "", fileBase64: base64String1, fileType: "video")
-                self.hideLoading()
-                
-                
-                ApiCalls.uploadVideo(file: video, completion: { (error: Error?, gphoto: GPhoto?) in
-                    if let gphoto = gphoto {
-                        print("Test success uploading")
-                        print(gphoto.file)
-                    }else {
-                        print("test Uploading",error ?? "error Localized")
-                    }
-                })
-                
-            } catch let error{
-                print(error.localizedDescription)
-
-                }
             }
         }
     }
@@ -319,24 +254,15 @@ extension GallaryVC: UICollectionViewDelegate,UICollectionViewDataSource,UIColle
             
             let alertController = UIAlertController(title: "Choose Type", message: "Please select photo from Gallery or open Camera", preferredStyle: .actionSheet)
             
-            let openGalleryBtn = UIAlertAction(title: "Open Gallery", style: .default) { (action) in
-                self.opengallery()
+            let openCameraBtn = UIAlertAction(title: "Post", style: .default) { (action) in
+                self.changePic()
             }
-            
-            let openCameraBtn = UIAlertAction(title: "Open camera", style: .default) { (action) in
-                self.openCamera()
-            }
-            let addMemory = UIAlertAction(title: "Add Memory", style: .default) { (action) in
+            let addMemory = UIAlertAction(title: "Memory", style: .default) { (action) in
                 self.addMemory()
             }
-            
-            let cancelBtn = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
-                print("Cancel btn")
-            }
-            alertController.addAction(openGalleryBtn)
             alertController.addAction(openCameraBtn)
             alertController.addAction(addMemory)
-            alertController.addAction(cancelBtn)
+            alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel) )
             
             alertController.popoverPresentationController?.sourceView = self.view
             alertController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection()
@@ -365,15 +291,7 @@ extension GallaryVC: UICollectionViewDelegate,UICollectionViewDataSource,UIColle
             }else{
                 let storyboard = UIStoryboard(name: "MainTab", bundle: nil)
                 let VC = storyboard.instantiateViewController(withIdentifier: "PhotosVC") as! PhotosVC
-//                VC.post.galleryFile = gallery[indexPath.row - 1].file
-//                VC.post.id = gallery[indexPath.row - 1].id
-//                VC.post.type = gallery[indexPath.row - 1].type
-//                VC.post.liked = gallery[indexPath.row - 1].liked
-//                VC.post.love = gallery[indexPath.row - 1].love
-//                VC.post.wow = gallery[indexPath.row - 1].wow
-                //VC.post.hasLiked =
                  VC.gallery_id = gallery[indexPath.row - 1].id
-                //self.navigationController?.pushViewController(VC, animated: true)
                 self.navigationController?.present(VC, animated: true, completion: nil)
             }
         }
@@ -386,24 +304,5 @@ extension GallaryVC: UICollectionViewDelegate,UICollectionViewDataSource,UIColle
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: CGFloat((collectionView.bounds.width - 16) / 3), height: CGFloat((collectionView.bounds.width - 16) / 3))
-    }
-    
-}
-extension GallaryVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let picke = info[.mediaURL] as? URL{
-            self.videoUrl = picke
-        }
-        else if let editedImage = info[.editedImage] as? UIImage{
-            self.picker_image = editedImage
-        }else if let originalImage = info[.originalImage] as? UIImage {
-            self.picker_image = originalImage
-        }
-        imagePiker.dismiss(animated: true, completion: nil)
-        
     }
 }

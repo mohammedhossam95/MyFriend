@@ -8,9 +8,11 @@
 
 import UIKit
 import Kingfisher
+import IQKeyboardManagerSwift
 
 class CommentsVC: BaseViewController {
     
+    @IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var commentView: UIView!
     @IBOutlet weak var postView: UIView!
     @IBOutlet weak var likesTable: UITableView!
@@ -51,8 +53,9 @@ class CommentsVC: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print("Mohammed Hossam Sharaf")
         SocketIOManager.sharedInstance.getComment { (comment:Comment) in
-            print(comment)
+            print("Comment Listen",comment)
             DispatchQueue.main.async {
             if comment.gallery_id == self.id{
                 self.likesArr.append(comment)
@@ -68,6 +71,7 @@ class CommentsVC: BaseViewController {
         }
         
         SocketIOManager.sharedInstance.getDeletedComment { (com: Comment) in
+            print("Test Destroy", com)
             if com.status == true {
                 self.handlefollowersRefresh()
             } else {
@@ -102,11 +106,9 @@ class CommentsVC: BaseViewController {
     @IBAction func postComment(_ sender: UIButton) {
         if let comment = commentTxt.text, comment.isEmpty != true {
             if (commentTxt.text!.count) > 0 {
-                print("Comment From Mohammed ",Uid!,comment,self.id)
                 SocketIOManager.sharedInstance.sendCommentToServerSocket(user_id: Uid!, comment: comment, gallery_id: self.id)
                 commentTxt.endEditing(true)
                 commentTxt.text = ""
-//                self.scrollToBottom()
                 commentTxt.resignFirstResponder()
             }
         }
@@ -167,7 +169,7 @@ class CommentsVC: BaseViewController {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let VC = storyboard.instantiateViewController(withIdentifier: "FollowerProfileVC") as! FollowerProfileVC
             VC.userId = Id
-            userAboutVC.userId = Id
+            UserAboutTableVC.userId = Id
             userGallaryVC.id = Id
             
             self.navigationController?.pushViewController(VC, animated: true)
@@ -184,7 +186,7 @@ class CommentsVC: BaseViewController {
         }else{
             imgView.image = UIImage(named: "")
         }
-        
+        IQKeyboardManager.shared.enable = false
         commentView.layer.cornerRadius = 10.0
         commentView.clipsToBounds = true
         commentView.layer.borderWidth = 1
@@ -209,13 +211,10 @@ class CommentsVC: BaseViewController {
 //M<ark:-  Load data in table view cell as messages
 extension CommentsVC {
     func scrollToBottom(){
-        // self.chatTableView.reloadData()
-        // DispatchQueue.main.async {
         if likesArr.count > 0 {
             let indexPath = IndexPath(row: likesArr.count-1, section: 0)
             self.likesTable.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
-        //}
     }
 }
 
@@ -249,9 +248,6 @@ extension CommentsVC :UITableViewDataSource,UITableViewDelegate{
         let commentDeleted = likesArr[indexPath.row]
         let deleteAction = UITableViewRowAction(style: .normal, title: "Delete") { (action: UITableViewRowAction, indexPath: IndexPath) in
             //self.handleDelete(comment: commentDeleted, indexPath: indexPath)
-            print(commentDeleted.userId)
-            print(commentDeleted.id)
-            print("post user id \(self.postUserID)")
             if let uid = self.Uid, uid == commentDeleted.userId {
                 SocketIOManager.sharedInstance.deleteComment(user_id: self.Uid!, comment_id: commentDeleted.id)
             }else if let uid = self.Uid, uid == self.postUserID {
@@ -261,7 +257,7 @@ extension CommentsVC :UITableViewDataSource,UITableViewDelegate{
                 let Confirm = UIAlertAction(title: "OK", style: .default) { (action) in
                 }
                 alertController.addAction(Confirm)
-                self.navigationController?.present(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
             
         }
@@ -276,19 +272,20 @@ extension CommentsVC :UITableViewDataSource,UITableViewDelegate{
     }
 }
 
-
 //Mark: TextField Delegate Methods
 extension CommentsVC : UITextFieldDelegate{
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         UIView.animate(withDuration:0.5){
-            //self.textViewHeightConstraint.constant = 300
+            let height = UIScreen.main.bounds.height >= 812 ? 320 : 275
+            self.textViewHeightConstraint.constant = CGFloat(height) + 40.0
             self.view.layoutIfNeeded()
         }
+        scrollToBottom()
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         UIView.animate(withDuration:0.5){
-            // self.textViewHeightConstraint.constant = 50
+            self.textViewHeightConstraint.constant = 50
             self.view.layoutIfNeeded()
         }
     }

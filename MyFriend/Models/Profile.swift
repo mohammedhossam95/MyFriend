@@ -25,7 +25,7 @@ class Profile: NSObject {
     var bio : String = ""
     var work : String = ""
     var interest_in : String = ""
-    var hobbies : String = ""
+    var hobbies = [String]()
 }
 
 

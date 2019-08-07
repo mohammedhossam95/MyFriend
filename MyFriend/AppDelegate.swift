@@ -40,30 +40,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                                             if let notification = result?.notification.payload {
                                                 //"New Request" "New Message"
                                                 guard let text = notification.title else {return}
+                                                guard let body = notification.body else {return}
                                                 
                                             if text == "New Message"{
-                                                    if let data = notification.additionalData{
-                                                        
-                                                        //                        print("data\(data)")
-                                                        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                                                        let SB = storyBoard.instantiateViewController(withIdentifier: "ChatRoomVC") as! ChatRoomVC
-                                                        SB.userNameTxt = data["senderName"] as! String
-                                                        SB.profileImage = data["senderAvatar"] as! String
-//                                                        SB.chat_id = data["threadId"] as! Int
-//                                                        SB.id = data["senderId"] as! Int
-                                                        
-                                                        let tabsVC = storyBoard.instantiateViewController(withIdentifier: "tabsVC") as! TabsController
-                                                        
-//                                                        SB.callBackGetConversations = {
-//                                                            if let x = tabsVC.tabBar.items?[3].badgeValue {
-//                                                                var unreadInt = Int(x)
-//                                                                unreadInt = unreadInt! - 1
-//                                                                
-//                                                                tabsVC.tabBar.items?[3].badgeValue = unreadInt! <= 0 ? nil : "\(unreadInt!)"
-//                                                            }
-//                                                        }
-                                                        
-                                                        self.window?.rootViewController?.present(SB, animated: true, completion: nil)
+                                                print("the Messgae is ",body)
+                                                if let data = notification.additionalData{
+                                                    print("Messgae data\(data)")
+                                                    let storyboard = UIStoryboard(name: "MainTab", bundle: nil)
+                                                    let SB = storyboard.instantiateViewController(withIdentifier: "ChatRoomVC") as! ChatRoomVC
+                                                    SB.userNameTxt = data["user_from_name"] as! String
+                                                    SB.profileImage = data["user_from_image"] as! String
+                                                    SB.frindID = data["user_to"] as! Int
+                                                    self.window?.rootViewController?.present(SB, animated: true, completion: nil)
                                                     }
                                                 }
                                             }

@@ -11,6 +11,7 @@ import Kingfisher
 import Fusuma
 import IQKeyboardManagerSwift
 import WSTagsField
+import YPImagePicker
 
 class EditUserProfileTableVC: BaseTableViewController {
     
@@ -40,7 +41,6 @@ class EditUserProfileTableVC: BaseTableViewController {
     }
     
    private func setupUI(){
-        title = ""
         picView.layer.cornerRadius = picView.bounds.height / 2
         picView.clipsToBounds = true
         picView.layer.borderWidth = 1
@@ -66,6 +66,7 @@ class EditUserProfileTableVC: BaseTableViewController {
         view.addGestureRecognizer(tab)
     
         addHobbiesFieldEvents()
+        tableView.reloadData()
     }
     
     
@@ -114,6 +115,8 @@ class EditUserProfileTableVC: BaseTableViewController {
         
         self.hideSpecificLoading()
         self.hideLoading()
+        tableView.reloadData()
+
         
     }
     
@@ -133,20 +136,50 @@ class EditUserProfileTableVC: BaseTableViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
-    
-    
     @IBAction func changePicBtn(_ sender: UIButton) {
-        
-        let fusma = FusumaViewController()
-        fusma.delegate = self
-        fusma.cropHeightRatio = 1.0
-        fusma.allowMultipleSelection = false
-        fusma.availableModes = [.library, .camera]
-        fusma.photoSelectionLimit = 4
-        fusumaSavesImage = true
-        
-        present(fusma, animated: true, completion: nil)
+        changePic()
+    }
+    
+    @objc func changePic() {
+        var config = YPImagePickerConfiguration()
+        config.showsPhotoFilters = false
+        config.startOnScreen = .library
+        config.isScrollToChangeModesEnabled = false
+        config.library.maxNumberOfItems = 1
+        config.hidesStatusBar = false
+        let picker = YPImagePicker(configuration: config)
+        picker.didFinishPicking { [unowned picker] items, cancelled in
+            if cancelled {
+                picker.dismiss(animated: true, completion: nil)
+                return
+            }
+            if let photo = items.singlePhoto {
+               self.showLoading()
+                ApiCalls.updateUserPhoto(avatar: photo.image) { (error: Error?, success: Bool) in
+                    if success {
+                        self.hideLoading()
+                         self.profileImage.image = photo.image
+                        let alertController = UIAlertController(title: "Photo Update", message: "Your Photo was Updated Succesfully", preferredStyle: .alert)
+                        let cancelBtn = UIAlertAction(title: "OK", style: .cancel) { (action) in
+                            print("Cancel btn")
+                        }
+                        alertController.addAction(cancelBtn)
+                        
+                        self.navigationController?.present(alertController, animated: true, completion: nil)
+                    }else {
+                        let alertController = UIAlertController(title: "Try Again", message: "Upload Failure", preferredStyle: .alert)
+                        let cancelBtn = UIAlertAction(title: "OK", style: .cancel)
+                        alertController.addAction(cancelBtn)
+                        self.navigationController?.present(alertController, animated: true, completion: nil)
+                        
+                        self.hideLoading()
+                        print(error?.localizedDescription as Any)
+                    }
+                }
+            }
+            picker.dismiss(animated: true, completion: nil)
+        }
+        self.present(picker, animated: true, completion: nil)
     }
     
     
@@ -210,10 +243,14 @@ class EditUserProfileTableVC: BaseTableViewController {
         let bio = bioTV.text!
         let work = workTF.text!
         var hobby = ""
-        for key in keywordsField.tags.map({$0.text}){
-            hobby += "\(key),"
-        }
         
+        for key in keywordsField.tags.map({$0.text}){
+            if key == keywordsField.tags[keywordsField.tags.count - 1].text{
+               hobby += "\(key)"
+            }else {
+                hobby += "\(key),"
+            }
+        }
         self.updateInfo(username: name, birthdate: birthdate, gender: gender, interest_in: interests, bio: bio, work: work, hobbies: hobby)
     }
     
@@ -224,14 +261,10 @@ class EditUserProfileTableVC: BaseTableViewController {
             if success {
                 self.hideLoading()
                 let alertController = UIAlertController(title: "Update", message: "User Info Updated Succesfully", preferredStyle: .alert)
-                
-                
                 let cancelBtn = UIAlertAction(title: "OK", style: .cancel) { (action) in
-                    _ = self.navigationController?.popViewController(animated: true)
-                    print("Cancel btn")
+                    self.navigationController?.popViewController(animated: true)
                 }
                 alertController.addAction(cancelBtn)
-                
                 self.navigationController?.present(alertController, animated: true, completion: nil)
             }else {
                 self.hideLoading()
@@ -239,52 +272,7 @@ class EditUserProfileTableVC: BaseTableViewController {
             }
         }
     }
-    var picker_image: UIImage?{
-        didSet{
-            self.showLoading()
-            guard let image = picker_image else { return }
-            let uid = helper.getUserId()
-            
-            let imageData = image.jpegData(compressionQuality: 0.5)
-            let x = imageData?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
-            //let base64String =  imageData?.base64EncodedString(options: [])
-            //guard let base64 = base64String else { return }
-            guard let base64 = x else { return }
-            let base64String1 = "data:image/jpeg;base64,\(base64)"
-            // print("the first photo is \(base64String1) the end")
-            SocketIOManager.sharedInstance.sendStroyToServerSocket(user_id: uid!, fileBase64: base64String1, text: "", bgcolor: "", fileType: "image")
-        }
-    }
-    func openCamera() {
-        imagePiker = UIImagePickerController()
-        if(UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera)) {
-            imagePiker.sourceType = UIImagePickerController.SourceType.camera
-            imagePiker.delegate = self
-            imagePiker.allowsEditing = true
-            imagePiker.setEditing(true, animated: true)
-            imagePiker.preferredContentSize = CGSize(width: 100, height: 100)
-            imagePiker.cameraFlashMode = .auto
-            imagePiker.cameraDevice = .rear
-            imagePiker.showsCameraControls = true
-            imagePiker.videoMaximumDuration = 40.0
-            imagePiker.videoQuality = .typeMedium
-            imagePiker.setEditing(true, animated: true)
-            imagePiker.mediaTypes = ["public.image", "public.movie"]
-            present(imagePiker, animated: true, completion: nil)
-        }else {
-            opengallery()
-        }
-    }
-    
-    func opengallery() {
-        imagePiker = UIImagePickerController()
-        imagePiker.allowsEditing = true
-        imagePiker.videoMaximumDuration = 40.0
-        imagePiker.sourceType = .photoLibrary
-        imagePiker.mediaTypes = ["public.image", "public.movie"]
-        imagePiker.delegate = self
-        self.present(imagePiker, animated: true, completion: nil)
-    }
+
     
     fileprivate func addHobbiesFieldEvents() {
         keywordsField.frame = hoppies.bounds
@@ -329,121 +317,10 @@ class EditUserProfileTableVC: BaseTableViewController {
         }
     }
 }
-extension EditUserProfileTableVC : FusumaDelegate{
-    //Fusuma Delegate Methods
-    
-    func fusumaMultipleImageSelected(_ images: [UIImage], source: FusumaMode) {
-        print("No multible ")
-    }
-    
-    func fusumaImageSelected(_ image: UIImage, source: FusumaMode) {
-        self.showLoading()
-        switch source {
-        case .camera :
-            ApiCalls.updateUserPhoto(avatar: image) { (error: Error?, success: Bool) in
-                self.showLoading()
-                if success {
-                    self.hideLoading()
-                    self.profileImage.image = image
-                    let alertController = UIAlertController(title: "Photo Update", message: "Your Photo was Updated Succesfully", preferredStyle: .alert)
-                    let cancelBtn = UIAlertAction(title: "OK", style: .cancel) { (action) in
-                        print("Cancel btn")
-                    }
-                    alertController.addAction(cancelBtn)
-                    
-                    self.navigationController?.present(alertController, animated: true, completion: nil)
-                }else {
-                    let alertController = UIAlertController(title: "Try Again", message: "Upload Failure", preferredStyle: .alert)
-                    let cancelBtn = UIAlertAction(title: "OK", style: .cancel)
-                    alertController.addAction(cancelBtn)
-                    self.navigationController?.present(alertController, animated: true, completion: nil)
-                    
-                    self.hideLoading()
-                    print(error?.localizedDescription as Any)
-                }
-            }
-        case .library:
-            ApiCalls.updateUserPhoto(avatar: image) { (error: Error?, success: Bool) in
-                self.showLoading()
-                if success {
-                    self.hideLoading()
-                    self.profileImage.image = image
-                    let alertController = UIAlertController(title: "Photo Update", message: "Your Photo was Updated Succesfully", preferredStyle: .alert)
-                    let cancelBtn = UIAlertAction(title: "OK", style: .cancel) { (action) in
-                        print("Cancel btn")
-                    }
-                    alertController.addAction(cancelBtn)
-                    
-                    self.navigationController?.present(alertController, animated: true, completion: nil)
-                }else {
-                    let alertController = UIAlertController(title: "Try Again", message: "Upload Failure", preferredStyle: .alert)
-                    let cancelBtn = UIAlertAction(title: "OK", style: .cancel)
-                    alertController.addAction(cancelBtn)
-                    self.navigationController?.present(alertController, animated: true, completion: nil)
-                    
-                    self.hideLoading()
-                    print(error?.localizedDescription as Any)
-                }
-            }
-        default:
-            print("image selected")
-        }
-        
-        
-        
-    }
-    
-    func fusumaVideoCompleted(withFileURL fileURL: URL) {
-        print("no video")
-    }
-    
-    func fusumaCameraRollUnauthorized() {
-        print("camera roll un authoraised")
-        let alert = UIAlertController(title: "Access Requested",
-                                      message: "Saving image needs to access your photo album",
-                                      preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
-        })
-        
-        present(alert, animated: true, completion: nil)
-    }
-}
 extension EditUserProfileTableVC: UITextViewDelegate{
     
     func textViewDidChange(_ textView: UITextView) {
         tableView.reloadDataAnimatedKeepingOffset()
         textView.becomeFirstResponder()
-    }
-    
-//    func textViewDidBeginEditing(_ textView: UITextView) {
-//        bioTV.text = String()
-//
-//    }
-//    func textFieldDidBeginEditing(_ textField: UITextField) {
-//        if textField == workTF{
-//            workTF.text = ""
-////        }else if textField == hoppiesTF {
-////            hoppiesTF.text = ""
-//        }else {
-//            print("error")
-//        }
-//
-//
-//    }
-}
-extension EditUserProfileTableVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: true, completion: nil)
-    }
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let editedImage = info[.editedImage] as? UIImage{
-            self.picker_image = editedImage
-        }else if let originalImage = info[.originalImage] as? UIImage {
-            self.picker_image = originalImage
-        }
-        imagePiker.dismiss(animated: true, completion: nil)
-        
     }
 }

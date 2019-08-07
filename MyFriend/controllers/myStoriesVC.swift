@@ -153,7 +153,7 @@ class myStoriesVC: BaseViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let VC = storyboard.instantiateViewController(withIdentifier: "FollowerProfileVC") as! FollowerProfileVC
         VC.userId = Id
-        userAboutVC.userId = Id
+        UserAboutTableVC.userId = Id
         userGallaryVC.id = Id
         
         self.navigationController?.pushViewController(VC, animated: true)

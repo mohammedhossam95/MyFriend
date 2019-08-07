@@ -85,7 +85,7 @@ class WowsVC: BaseViewController {
         let VC = storyboard.instantiateViewController(withIdentifier: "FollowerProfileVC") as! FollowerProfileVC
         print(Id)
         VC.userId = Id
-        userAboutVC.userId = Id
+        UserAboutTableVC.userId = Id
         userGallaryVC.id = Id
         
         self.navigationController?.pushViewController(VC, animated: true)

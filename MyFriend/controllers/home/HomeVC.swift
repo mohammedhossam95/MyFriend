@@ -12,12 +12,12 @@ import AVFoundation
 import AVKit
 import GoogleMobileAds
 import iOSPhotoEditor
+import OneSignal
 
 class HomeVC: BaseViewController{
-    // @IBOutlet weak var usersStoriesCollection: UICollectionView!
+    
     @IBOutlet weak var userPostsTable: UITableView!
     @IBOutlet weak var goView: UIView!
-    
     
     var collectionModel: RootClass! = RootClass(JSON: [:])
     var imagePiker: UIImagePickerController!
@@ -294,7 +294,7 @@ class HomeVC: BaseViewController{
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let VC = storyboard.instantiateViewController(withIdentifier: "FollowerProfileVC") as! FollowerProfileVC
             VC.userId = Id
-            userAboutVC.userId = Id
+            UserAboutTableVC.userId = Id
             userGallaryVC.id = Id
             
             self.navigationController?.pushViewController(VC, animated: true)
@@ -352,6 +352,8 @@ class HomeVC: BaseViewController{
                 guard let user_id1 = helper.getUserId() else { return }
                 print("home Api \(user_id1)")
                 SocketIOManager.sharedInstance.sendOnlineStatus(user_id: user_id1)
+                OneSignal.setExternalUserId("\(user_id1)")
+                OneSignal.setSubscription(true)
                 self.hideLoading()
             }
         }

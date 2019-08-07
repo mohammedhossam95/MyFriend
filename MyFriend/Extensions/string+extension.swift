@@ -12,6 +12,20 @@ import SwiftMoment
 
 extension String {
     
+        func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
+            let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+            let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+            
+            return ceil(boundingBox.height)
+        }
+        
+        func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
+            let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+            let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+            
+            return ceil(boundingBox.width)
+        }
+        
     var trimmed: String {
         return self.trimmingCharacters(in: .whitespacesAndNewlines)
     }
@@ -29,13 +43,6 @@ extension String {
     subscript (i: Int) -> String {
         return String(self[i] as Character)
     }
-    
-//    subscript (r: Range<Int>) -> String {
-//        let start = index(startIndex, offsetBy: r.lowerBound)
-//        let end = index(startIndex, offsetBy: r.upperBound)
-//        return String(self[Range(start ..< end)])
-//    }
-    
     
     func toDateTime() -> Date {
         //Create Date Formatter
@@ -144,9 +151,6 @@ extension String {
         return timeFromString
     }
     
-}
-extension String {
-    
     var isValidEmail: Bool {
         // print("validate calendar: \(testStr)")
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
@@ -181,12 +185,6 @@ extension String {
         
         return finalString.uppercased()
     }
-    //    func formattedServerDate(format : String = Constants.dateFormat ) -> String {
-    //        return self.date().string(custom: format)
-    //    }
-//    func date(format : String = "yyyy-MM-dd'T'HH:mm:ss" ) -> Date {
-//        return Date.datefrom(string: self.components(separatedBy: ["."]).first!, format: format)
-//    }
     
     var intValue : Int {
         
@@ -228,16 +226,5 @@ extension String {
         dateFormatter.dateFormat = "yyyy-MM-dd h:mm a"
         dateFormatter.timeZone = TimeZone(identifier: "UTC")
         return dateFormatter.date(from: self) ?? Date()
-    }
-}
-extension UIViewController{
-    func momentTime(webDate: String) -> String {
-        let dat = "\(webDate)+0000"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ssZ"
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        let date = dateFormatter.date(from:dat)!
-        let x = moment(date).fromNow()
-        return x
     }
 }

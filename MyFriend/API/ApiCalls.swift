@@ -35,20 +35,20 @@ class ApiCalls: NSObject {
                     print(json)
                     // let def = UserDefaults.standard
                     if let status = json["properties"]["status"].string,status ==  "true"{
-                    if let userData = json["properties"]["data"].array,userData.count > 0{
-                      
-                        
-                        if let user_token = userData[0]["user_token"].string {
-                            // get contact type
-                            print(user_token)
-                            helper.saveApiToken(token: user_token)
+                        if let userData = json["properties"]["data"].array,userData.count > 0{
+                            
+                            
+                            if let user_token = userData[0]["user_token"].string {
+                                // get contact type
+                                print(user_token)
+                                helper.saveApiToken(token: user_token)
+                            }
+                            
+                            if let userName = userData[0]["username"].string,let bgGallery = userData[0]["bgGallery"].string,let avatar = userData[0]["avatar"].string,let user_id = userData[0]["user_id"].int {
+                                helper.saveUserInfo(user_id: user_id, username: userName, avatar: avatar, bgGallery: bgGallery)
+                            }
+                            completion(nil,true, "")
                         }
-                        
-                        if let userName = userData[0]["username"].string,let bgGallery = userData[0]["bgGallery"].string,let avatar = userData[0]["avatar"].string,let user_id = userData[0]["user_id"].int {
-                            helper.saveUserInfo(user_id: user_id, username: userName, avatar: avatar, bgGallery: bgGallery)
-                        }
-                        completion(nil,true, "")
-                    }
                     }else if let exception = json["properties"]["exception"].string,exception ==  "Account not activated" {
                         completion(nil,false, "Account not activated")
                     }
@@ -57,12 +57,9 @@ class ApiCalls: NSObject {
                     }
                     
                 }
-                
-                
         }
         
     }
-//        https://www.myfriend-app.com/api/v1/auth/activation
     class func confirmUser(activation_key: Int, completion: @escaping (_ error: Error?, _ success: Bool)->Void){
         let url = URLs.confirm
         let parameters: [String:Any] =
@@ -167,12 +164,12 @@ class ApiCalls: NSObject {
                     let json = JSON(value)
                     // let def = UserDefaults.standard
                     if let status = json["properties"]["status"].string,status ==  "true"{
-                            if let exception = json["properties"]["exception"].string {
-                                completion(nil,true, exception)
-                            }
+                        if let exception = json["properties"]["exception"].string {
+                            completion(nil,true, exception)
+                        }
                     }else if let exception = json["properties"]["exception"].string{
                         completion(nil,false, exception)
-                    
+                        
                     }else{
                         completion(nil,false, "")
                     }
@@ -211,10 +208,7 @@ class ApiCalls: NSObject {
                     else{
                         completion(nil,false, "")
                     }
-                    
                 }
-                
-                
         }
         
     }

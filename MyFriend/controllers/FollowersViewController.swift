@@ -16,7 +16,6 @@ class FollowersViewController: BaseViewController, GADInterstitialDelegate  {
     @IBOutlet weak var sview: UIView!
     @IBOutlet weak var nobeView: UIView!
     @IBOutlet weak var followView: UIView!
-    @IBOutlet weak var goView: UIView!
     @IBOutlet weak var TinderView: KolodaView!
     
     var followers:[Follower] = [Follower]()
@@ -58,8 +57,6 @@ class FollowersViewController: BaseViewController, GADInterstitialDelegate  {
         followView.layer.cornerRadius = followView.bounds.height / 2
         followView.clipsToBounds = true
         
-        goView.layer.cornerRadius = 15.0
-        goView.clipsToBounds = true
     }
     @IBAction func followBtn(_ sender: UIButton) {
         print(TinderView.currentCardIndex)
@@ -190,7 +187,7 @@ extension FollowersViewController: KolodaViewDelegate, KolodaViewDataSource{
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let VC = storyboard.instantiateViewController(withIdentifier: "FollowerProfileVC") as! FollowerProfileVC
         VC.userId = self.followers[index].userId
-        userAboutVC.userId = self.followers[index].userId
+        UserAboutTableVC.userId = self.followers[index].userId
         userGallaryVC.id = self.followers[index].userId
         
         self.navigationController?.pushViewController(VC, animated: true)

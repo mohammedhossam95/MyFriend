@@ -9,6 +9,7 @@
 import UIKit
 import SocketIO
 import SwiftyJSON
+import OneSignal
 
 class SocketIOManager: NSObject {
     
@@ -48,7 +49,31 @@ class SocketIOManager: NSObject {
             "fileType" : fileType,
             "deviceType" : "mob"
         ]
+        print("Chat data",data)
        socket.emit("chat_emit", data)
+        guard let name = helper.getUsername() else {return}
+        guard let image = helper.getUserAvatar() else {return}
+        
+        let notificationData: [String: Any] = [
+            "user_from" : user_from,
+            "user_to" : user_to,
+            "user_from_name" : name,
+            "user_from_image" : image,
+            "message" : message,
+            "fileBase64" : fileBase64,
+            "fileType" : fileType,
+            "deviceType" : "mob"
+        ]
+        
+        OneSignal.postNotification([
+            "contents": ["en": "\(name)\n\(message)"],
+            "headings":["en":"New Message"],
+            "include_external_user_ids": ["\(user_to)"],
+            "data": notificationData
+            ], onSuccess: { (results) in
+        }, onFailure: { (error) in
+            print("notification in chatRoom error \(String(describing: error?.localizedDescription))")
+        })
     }
     
     func sendStroyToServerSocket(user_id: Int, fileBase64: String,text: String, bgcolor: String, fileType: String){
@@ -103,7 +128,6 @@ class SocketIOManager: NSObject {
     func getChatMessage(completionHandler: @escaping (_ messageInfo: CMessage) -> Void) {
         socket.on("chat_listen") { (data, SocketAckEmitter) in
             let json = JSON(data)
-
             guard let data = json[0].dictionary else { return }
             let firstPost = CMessage()
             firstPost.user_id = data["user_from"]?.int ?? 0
@@ -237,6 +261,8 @@ class SocketIOManager: NSObject {
     //All Comment Sockets
     
     func sendCommentToServerSocket(user_id: Int, comment: String, gallery_id: Int){
+        print("gallery_id==>", gallery_id)
+        print("user_id==>", user_id)
         let data: [String: Any] = [
             "gallery_id" : gallery_id,
             "user_id" : user_id,
@@ -252,6 +278,7 @@ class SocketIOManager: NSObject {
         socket.on("comment_listen") { (data, SocketAckEmitter) in
             
             let json = JSON(data)
+            print("Comment Listen",json)
             guard let data = json[0].dictionary else { return }
             let firstPost = Comment()
             firstPost.userId = data["user_id"]?.int ?? 0
@@ -281,6 +308,7 @@ class SocketIOManager: NSObject {
     func getDeletedComment(completionHandler: @escaping (_ messageInfo: Comment) -> Void) {
         socket.on("destroyComment_listen") { (data, SocketAckEmitter) in
             let json = JSON(data)
+            print(json)
             guard let data = json[0].dictionary else { return }
             let firstPost = Comment()
             

@@ -21,12 +21,10 @@
 		520941C521D277020061D8BA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520941C421D277020061D8BA /* User.swift */; };
 		520941E721D2886F0061D8BA /* searchCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520941E621D2886F0061D8BA /* searchCollectionCell.swift */; };
 		520941E921D3C2950061D8BA /* userGallaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520941E821D3C2950061D8BA /* userGallaryVC.swift */; };
-		520941EB21D3C2AF0061D8BA /* userAboutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520941EA21D3C2AF0061D8BA /* userAboutVC.swift */; };
 		520BB9D821C00F6C0027719E /* GallaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BB9D721C00F6C0027719E /* GallaryVC.swift */; };
 		520BB9DA21C010540027719E /* galleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BB9D921C010540027719E /* galleryCell.swift */; };
 		520BB9DC21C10C000027719E /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BB9DB21C10C000027719E /* ProfileVC.swift */; };
 		520BB9DE21C11BB20027719E /* ProfileMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BB9DD21C11BB20027719E /* ProfileMenuCell.swift */; };
-		520BB9E021C12F130027719E /* AboutProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BB9DF21C12F130027719E /* AboutProfileVC.swift */; };
 		520BB9E221C152F90027719E /* SearchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BB9E121C152F90027719E /* SearchVC.swift */; };
 		520BB9E421C27DE10027719E /* PhotosVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BB9E321C27DE10027719E /* PhotosVC.swift */; };
 		520BB9E621C28F520027719E /* photosCollecViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520BB9E521C28F520027719E /* photosCollecViewCell.swift */; };
@@ -135,6 +133,14 @@
 		E11E69FE22F0345C0097CCCA /* MyFriendTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E69FD22F0345C0097CCCA /* MyFriendTextField.swift */; };
 		E11E6A0022F03D500097CCCA /* EditUserProfileTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E69FF22F03D500097CCCA /* EditUserProfileTableVC.swift */; };
 		E11E6A0222F04B280097CCCA /* TableView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11E6A0122F04B280097CCCA /* TableView+Extension.swift */; };
+		E16D713A22F8655D0038BF2A /* TagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16D713922F8655D0038BF2A /* TagCell.swift */; };
+		E16D713C22F8684A0038BF2A /* userAboutInfoTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16D713B22F8684A0038BF2A /* userAboutInfoTableVC.swift */; };
+		E16D713E22F87F250038BF2A /* UserAboutTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16D713D22F87F250038BF2A /* UserAboutTableVC.swift */; };
+		E16D714A22F968DC0038BF2A /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E16D714122F968DC0038BF2A /* Montserrat-Medium.ttf */; };
+		E16D714B22F968DC0038BF2A /* Montserrat-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E16D714222F968DC0038BF2A /* Montserrat-Light.ttf */; };
+		E16D714C22F968DC0038BF2A /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E16D714322F968DC0038BF2A /* Montserrat-Bold.ttf */; };
+		E16D714D22F968DC0038BF2A /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E16D714422F968DC0038BF2A /* Montserrat-SemiBold.ttf */; };
+		E16D714E22F968DC0038BF2A /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E16D714522F968DC0038BF2A /* Montserrat-Regular.ttf */; };
 		E1ACD71622D47B7F00C4E4A6 /* TabsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ACD71522D47B7F00C4E4A6 /* TabsController.swift */; };
 		E1B6C52B22F0834B009DF75E /* Navigation+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B6C52A22F0834B009DF75E /* Navigation+extension.swift */; };
 		E1B6C53322F0CB38009DF75E /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B6C53222F0CB38009DF75E /* NotificationService.swift */; };
@@ -183,12 +189,10 @@
 		520941C421D277020061D8BA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		520941E621D2886F0061D8BA /* searchCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchCollectionCell.swift; sourceTree = "<group>"; };
 		520941E821D3C2950061D8BA /* userGallaryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userGallaryVC.swift; sourceTree = "<group>"; };
-		520941EA21D3C2AF0061D8BA /* userAboutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userAboutVC.swift; sourceTree = "<group>"; };
 		520BB9D721C00F6C0027719E /* GallaryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GallaryVC.swift; sourceTree = "<group>"; };
 		520BB9D921C010540027719E /* galleryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = galleryCell.swift; sourceTree = "<group>"; };
 		520BB9DB21C10C000027719E /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
 		520BB9DD21C11BB20027719E /* ProfileMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMenuCell.swift; sourceTree = "<group>"; };
-		520BB9DF21C12F130027719E /* AboutProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutProfileVC.swift; sourceTree = "<group>"; };
 		520BB9E121C152F90027719E /* SearchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVC.swift; sourceTree = "<group>"; };
 		520BB9E321C27DE10027719E /* PhotosVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosVC.swift; sourceTree = "<group>"; };
 		520BB9E521C28F520027719E /* photosCollecViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = photosCollecViewCell.swift; sourceTree = "<group>"; };
@@ -303,6 +307,14 @@
 		E11E69FD22F0345C0097CCCA /* MyFriendTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFriendTextField.swift; sourceTree = "<group>"; };
 		E11E69FF22F03D500097CCCA /* EditUserProfileTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditUserProfileTableVC.swift; sourceTree = "<group>"; };
 		E11E6A0122F04B280097CCCA /* TableView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TableView+Extension.swift"; sourceTree = "<group>"; };
+		E16D713922F8655D0038BF2A /* TagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagCell.swift; sourceTree = "<group>"; };
+		E16D713B22F8684A0038BF2A /* userAboutInfoTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = userAboutInfoTableVC.swift; sourceTree = "<group>"; };
+		E16D713D22F87F250038BF2A /* UserAboutTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAboutTableVC.swift; sourceTree = "<group>"; };
+		E16D714122F968DC0038BF2A /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Medium.ttf"; sourceTree = "<group>"; };
+		E16D714222F968DC0038BF2A /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
+		E16D714322F968DC0038BF2A /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		E16D714422F968DC0038BF2A /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
+		E16D714522F968DC0038BF2A /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
 		E1ACD71522D47B7F00C4E4A6 /* TabsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabsController.swift; sourceTree = "<group>"; };
 		E1B6C52A22F0834B009DF75E /* Navigation+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Navigation+extension.swift"; sourceTree = "<group>"; };
 		E1B6C53022F0CB38009DF75E /* Myfriend-app.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Myfriend-app.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -385,7 +397,7 @@
 			children = (
 				520941BE21D270770061D8BA /* FollowerProfileVC.swift */,
 				520941E821D3C2950061D8BA /* userGallaryVC.swift */,
-				520941EA21D3C2AF0061D8BA /* userAboutVC.swift */,
+				E16D713D22F87F250038BF2A /* UserAboutTableVC.swift */,
 			);
 			path = UserProfile;
 			sourceTree = "<group>";
@@ -396,17 +408,12 @@
 				525C907021C67DD10052BCAD /* Auth */,
 				520941AD21D25BD70061D8BA /* Stroies */,
 				6515260D22089ABA007F222E /* home */,
+				E16D715222F96DBF0038BF2A /* MyProfile */,
 				520941BD21D270450061D8BA /* UserProfile */,
 				6513D8602223FE5A0068BF0B /* Analysis Controllers */,
-				520BB9DB21C10C000027719E /* ProfileVC.swift */,
-				65E4F19021E4AA7B00128E55 /* StoryTextVC.swift */,
-				520BB9D721C00F6C0027719E /* GallaryVC.swift */,
-				520BB9DF21C12F130027719E /* AboutProfileVC.swift */,
 				65D1132421FF0C2500EF0C67 /* MyFollowersVC.swift */,
 				65D1132621FF0C4500EF0C67 /* MyFollowingVC.swift */,
 				520BB9E321C27DE10027719E /* PhotosVC.swift */,
-				52C9052121BEAC0C00CC8760 /* SettingsVC.swift */,
-				E11E69FF22F03D500097CCCA /* EditUserProfileTableVC.swift */,
 				5244AA5121CFD07F00651266 /* FollowersViewController.swift */,
 				52C9052721BFCADF00CC8760 /* NotificationVC.swift */,
 				5253DCAC21B95D33004EAC83 /* ChatVC.swift */,
@@ -432,6 +439,7 @@
 		5212CAAA21BD1E1500BE9FAD /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E16D713F22F968DC0038BF2A /* Fonts */,
 				5212CAB421BD342300BE9FAD /* UITextFieldExtension.swift */,
 				5212CAB521BD342300BE9FAD /* UIFontExensions.swift */,
 				52A34C3D21D52632000D8A25 /* UIButton+Excetension.swift */,
@@ -481,6 +489,7 @@
 				5212CADC21BD71AB00BE9FAD /* ChatTableViewCell.swift */,
 				52C9052521BFB84200CC8760 /* NotificationCells.swift */,
 				520BB9D921C010540027719E /* galleryCell.swift */,
+				E16D713922F8655D0038BF2A /* TagCell.swift */,
 				520BB9DD21C11BB20027719E /* ProfileMenuCell.swift */,
 				520BB9E521C28F520027719E /* photosCollecViewCell.swift */,
 				526CB6D321CBAC6200104D01 /* TinderCard.swift */,
@@ -555,6 +564,7 @@
 			children = (
 				52FB372022F0D5E70023412F /* MyFriend.entitlements */,
 				525C907321C68DEC0052BCAD /* API */,
+				E140127222F8257E00417D53 /* Socket */,
 				5253DCAA21B95D33004EAC83 /* AppDelegate.swift */,
 				525C906A21C64BCB0052BCAD /* config.swift */,
 				E1ACD71522D47B7F00C4E4A6 /* TabsController.swift */,
@@ -598,7 +608,6 @@
 		525C907321C68DEC0052BCAD /* API */ = {
 			isa = PBXGroup;
 			children = (
-				65A6FCC321DE103100EC9D48 /* SocketIOManager.swift */,
 				525C907421C68E010052BCAD /* ApiCalls.swift */,
 				52C3673E21C8EA6D006D64E1 /* Api+Home.swift */,
 				52C3674221C92E80006D64E1 /* Api+Profile.swift */,
@@ -659,6 +668,47 @@
 				B8F753F5E11ACE6D726DFBF5 /* Pods_Myfriend_app.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E140127222F8257E00417D53 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				65A6FCC321DE103100EC9D48 /* SocketIOManager.swift */,
+			);
+			path = Socket;
+			sourceTree = "<group>";
+		};
+		E16D713F22F968DC0038BF2A /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E16D714022F968DC0038BF2A /* Montserrat */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		E16D714022F968DC0038BF2A /* Montserrat */ = {
+			isa = PBXGroup;
+			children = (
+				E16D714122F968DC0038BF2A /* Montserrat-Medium.ttf */,
+				E16D714222F968DC0038BF2A /* Montserrat-Light.ttf */,
+				E16D714322F968DC0038BF2A /* Montserrat-Bold.ttf */,
+				E16D714422F968DC0038BF2A /* Montserrat-SemiBold.ttf */,
+				E16D714522F968DC0038BF2A /* Montserrat-Regular.ttf */,
+			);
+			path = Montserrat;
+			sourceTree = "<group>";
+		};
+		E16D715222F96DBF0038BF2A /* MyProfile */ = {
+			isa = PBXGroup;
+			children = (
+				520BB9DB21C10C000027719E /* ProfileVC.swift */,
+				65E4F19021E4AA7B00128E55 /* StoryTextVC.swift */,
+				520BB9D721C00F6C0027719E /* GallaryVC.swift */,
+				E16D713B22F8684A0038BF2A /* userAboutInfoTableVC.swift */,
+				52C9052121BEAC0C00CC8760 /* SettingsVC.swift */,
+				E11E69FF22F03D500097CCCA /* EditUserProfileTableVC.swift */,
+			);
+			path = MyProfile;
 			sourceTree = "<group>";
 		};
 		E1B6C53122F0CB38009DF75E /* Myfriend-app */ = {
@@ -769,13 +819,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				52C9052A21BFE9EF00CC8760 /* Main.storyboard in Resources */,
+				E16D714A22F968DC0038BF2A /* Montserrat-Medium.ttf in Resources */,
 				5244AA4921CFBEDC00651266 /* GoogleService-Info.plist in Resources */,
 				526CB6D621CBC18B00104D01 /* OverlayView.xib in Resources */,
+				E16D714B22F968DC0038BF2A /* Montserrat-Light.ttf in Resources */,
 				526CB6D221CBAC5000104D01 /* TinderCard.xib in Resources */,
+				E16D714D22F968DC0038BF2A /* Montserrat-SemiBold.ttf in Resources */,
+				E16D714E22F968DC0038BF2A /* Montserrat-Regular.ttf in Resources */,
 				5253DCB521B95D35004EAC83 /* LaunchScreen.storyboard in Resources */,
 				5244AA4C21CFBEDC00651266 /* SF-Pro-Text-Bold.otf in Resources */,
 				5244AA4A21CFBEDC00651266 /* SF-Pro-Text-Light.otf in Resources */,
 				651AC86122316CB5002D3005 /* BannerAd.xib in Resources */,
+				E16D714C22F968DC0038BF2A /* Montserrat-Bold.ttf in Resources */,
 				5244AA5021CFBEDC00651266 /* SF-Pro-Text-Medium.otf in Resources */,
 				5244AA4B21CFBEDC00651266 /* SF-Pro-Text-Regular.otf in Resources */,
 				5253DCB221B95D35004EAC83 /* Assets.xcassets in Resources */,
@@ -939,7 +994,6 @@
 				65D1132721FF0C4500EF0C67 /* MyFollowingVC.swift in Sources */,
 				520BB9DE21C11BB20027719E /* ProfileMenuCell.swift in Sources */,
 				65F8C9152237B7AA00476231 /* ResetPasswordVC.swift in Sources */,
-				520BB9E021C12F130027719E /* AboutProfileVC.swift in Sources */,
 				5212CABF21BD342300BE9FAD /* UIFontExensions.swift in Sources */,
 				52C9052221BEAC0C00CC8760 /* SettingsVC.swift in Sources */,
 				520941E921D3C2950061D8BA /* userGallaryVC.swift in Sources */,
@@ -974,8 +1028,8 @@
 				520941BF21D270770061D8BA /* FollowerProfileVC.swift in Sources */,
 				6513D8622223FE8D0068BF0B /* TodayVC.swift in Sources */,
 				5210040F21D13076001D746E /* storiesTableViewCell.swift in Sources */,
+				E16D713C22F8684A0038BF2A /* userAboutInfoTableVC.swift in Sources */,
 				65173E5921DD03A600F21B16 /* ChatRoomVC.swift in Sources */,
-				520941EB21D3C2AF0061D8BA /* userAboutVC.swift in Sources */,
 				52978F212215B2C000BD2E00 /* PlayerVideoClass.swift in Sources */,
 				520BB9DC21C10C000027719E /* ProfileVC.swift in Sources */,
 				52C3674521C93E84006D64E1 /* Profile.swift in Sources */,
@@ -1007,6 +1061,7 @@
 				65E4F19521E4FC4100128E55 /* chatRecieverCell.swift in Sources */,
 				5253DCAB21B95D33004EAC83 /* AppDelegate.swift in Sources */,
 				52106896220CA00B00563498 /* MyStoryCell.swift in Sources */,
+				E16D713E22F87F250038BF2A /* UserAboutTableVC.swift in Sources */,
 				520941C321D276760061D8BA /* Api+Search.swift in Sources */,
 				65173E5D21DD15EA00F21B16 /* chatSenderCell.swift in Sources */,
 				6513D8682223FEB90068BF0B /* AllTimeVC.swift in Sources */,
@@ -1026,6 +1081,7 @@
 				65213046221D54840048021C /* UICustomCollectionViewLayout.swift in Sources */,
 				6515261522089B31007F222E /* KissVC.swift in Sources */,
 				5212CAAD21BD1E7200BE9FAD /* postsTableViewCell.swift in Sources */,
+				E16D713A22F8655D0038BF2A /* TagCell.swift in Sources */,
 				522D134D220B27DB00483DA2 /* MemoriesVC.swift in Sources */,
 				65173E6421DD21ED00F21B16 /* CMessage.swift in Sources */,
 				6515261322089B17007F222E /* CommentsVC.swift in Sources */,

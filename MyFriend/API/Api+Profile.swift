@@ -69,8 +69,8 @@ extension ApiCalls{
                             guard let data = data.dictionary else { return }
                             
                             let hobbie = data["hobbie"]?.string ?? ""
-                            firstPost.hobbies += "  \(hobbie)  "
-                            
+                            firstPost.hobbies.append(hobbie)
+                            //                                += "  \(hobbie)  "
                         }
                         
                         completion(nil, firstPost)
@@ -135,12 +135,12 @@ extension ApiCalls{
                             completion(nil, firstPost)
                             return
                         }
-                        
                         for data in userHobbies {
                             guard let data = data.dictionary else { return }
                             
                             let hobbie = data["hobbie"]?.string ?? ""
-                            firstPost.hobbies += "  \(hobbie)  "
+                            firstPost.hobbies.append(hobbie)
+//                                += "  \(hobbie)  "
                             
                         }
                         
@@ -358,7 +358,7 @@ extension ApiCalls{
             }
             do {
                 let videoData: Data = try Data(contentsOf: avatar)
-                 form.append(videoData, withName: "avatar", fileName: "\(Date().timeIntervalSince1970).mp4", mimeType: "video/mp4")
+                form.append(videoData, withName: "avatar", fileName: "\(Date().timeIntervalSince1970).mp4", mimeType: "video/mp4")
             } catch let error{
                 print(error.localizedDescription)
                 
@@ -372,7 +372,7 @@ extension ApiCalls{
             case .success(request: let upload, streamingFromDisk: _, streamFileURL: _):
                 print("video true")
                 upload.uploadProgress(closure: { (progress: Progress) in
-                   // print(progress)
+                    // print(progress)
                 })
                     .responseJSON(completionHandler: { (response: DataResponse<Any>) in
                         switch response.result
@@ -385,11 +385,11 @@ extension ApiCalls{
                             print(json)
                             if let status = json["properties"]["status"].string, status == "true" {
                                 
-//                                if let userData = json["properties"]["gallery"].array,userData.count > 0{
-//                                    if let avatar = userData[0]["avatar"].string {
-//                                        helper.updateUserPhoto(avatar: avatar)
-//                                    }
-//                                }
+                                //                                if let userData = json["properties"]["gallery"].array,userData.count > 0{
+                                //                                    if let avatar = userData[0]["avatar"].string {
+                                //                                        helper.updateUserPhoto(avatar: avatar)
+                                //                                    }
+                                //                                }
                                 let exception = json["properties"]["exception"].string ?? ""
                                 print("status  \(exception)")
                                 
